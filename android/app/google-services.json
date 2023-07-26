@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "777337531688",
+    "project_id": "fusion-sync-97d06",
+    "storage_bucket": "fusion-sync-97d06.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:777337531688:android:ccf25263ef8cadd0c2f41d",
+        "android_client_info": {
+          "package_name": "com.example.fusion_sync"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "777337531688-24fsvirt8onktk65ddhp3vfq2fmgknf0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAnly_hbQy_gJIH2G_eylGetr5WGild5ZA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "777337531688-24fsvirt8onktk65ddhp3vfq2fmgknf0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
