@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fusion_sync/application/profile_controller.dart';
 import 'package:fusion_sync/presantetion/profile/widgets/app_bar.dart';
 import 'package:fusion_sync/presantetion/profile/widgets/forth_section.dart';
 import 'package:fusion_sync/presantetion/profile/widgets/post_top_widget.dart';
@@ -6,9 +7,10 @@ import 'package:fusion_sync/presantetion/profile/widgets/profile_images_widget.d
 import 'package:fusion_sync/presantetion/profile/widgets/profile_post_widget.dart';
 import 'package:fusion_sync/presantetion/profile/widgets/second_section_profile.dart';
 import 'package:fusion_sync/presantetion/profile/widgets/third_section_widget.dart';
+import 'package:get/get.dart';
 
 class UserProfile extends StatelessWidget {
-  const UserProfile({super.key});
+  UserProfile({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,22 +23,23 @@ class UserProfile extends StatelessWidget {
               size: size,
             )),
         body: SingleChildScrollView(
-          physics: AlwaysScrollableScrollPhysics(),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ProfileImagesWidget(size: size),
-              SizedBox(
-                height: size.height * 0.03,
-              ),
-              SecondSection(),
-              ThirdSection(),
-              FourthSection(size: size),
-              PostsTopPart(),
-              ProfilePosts()
-            ],
-          ),
-        ));
+            physics: AlwaysScrollableScrollPhysics(),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ProfileImagesWidget(
+                  size: size,
+                ),
+                SizedBox(
+                  height: size.height * 0.03,
+                ),
+                SecondSection(),
+                ThirdSection(),
+                FourthSection(size: size),
+                PostsTopPart(),
+                ProfilePosts()
+              ],
+            )));
   }
 }

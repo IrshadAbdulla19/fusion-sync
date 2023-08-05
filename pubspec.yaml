@@ -32,9 +32,12 @@ dependencies:
   cupertino_icons: ^1.0.2
   firebase_auth: ^4.7.2
   firebase_core: ^2.15.0
+  firebase_storage: ^11.2.5
   flutter:
     sdk: flutter
   get: ^4.6.5
+  google_sign_in: ^6.1.4
+  image_picker: ^1.0.1
 
 dev_dependencies:
   flutter_lints: ^2.0.0
@@ -61,6 +64,9 @@ flutter:
     - asset/images/post 7.jpg
     - asset/images/post 5.jpeg
     - asset/images/post 6.jpeg
+    - asset/images/google logo.png
+    - asset/images/profile blank.webp
+    - asset/images/cover blank.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

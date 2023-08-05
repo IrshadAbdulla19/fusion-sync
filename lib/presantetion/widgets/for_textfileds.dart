@@ -29,6 +29,15 @@ class ForTextFormFileds extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15),
           child: TextFormField(
+            obscuringCharacter: "*",
+            obscureText: text == "Password" ? true : false,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please fill the Form Filed';
+              } else {
+                return null;
+              }
+            },
             controller: cntrl,
             decoration:
                 textFormDoc.copyWith(hintText: hintText, labelText: labelText),

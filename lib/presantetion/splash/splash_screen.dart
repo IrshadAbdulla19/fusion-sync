@@ -49,14 +49,25 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   forCheck() async {
-    await Future.delayed(Duration(seconds: 3));
-    if (auth.currentUser != null || auth.currentUser!.emailVerified == true) {
-      Navigator.pushReplacement(context, MaterialPageRoute(
-        builder: (context) {
+    await Future.delayed(const Duration(seconds: 3));
+    if (auth.currentUser != null) {
+      auth.currentUser!.reload();
+      if (auth.currentUser!.emailVerified) {
+        // ignore: use_build_context_synchronously
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) {
           return MainScreen();
-        },
-      ));
+        }));
+      } else {
+        // ignore: use_build_context_synchronously
+        Navigator.pushReplacement(context, MaterialPageRoute(
+          builder: (context) {
+            return SigninScreen();
+          },
+        ));
+      }
     } else {
+      // ignore: use_build_context_synchronously
       Navigator.pushReplacement(context, MaterialPageRoute(
         builder: (context) {
           return SigninScreen();

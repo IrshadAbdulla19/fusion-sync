@@ -1,30 +1,52 @@
 import 'package:flutter/material.dart';
+import 'package:fusion_sync/application/profile_controller.dart';
 import 'package:fusion_sync/domain/core/ui_constants/constants.dart';
+import 'package:get/get.dart';
 
 class ThirdSection extends StatelessWidget {
-  const ThirdSection({
+  ThirdSection({
     super.key,
   });
-
+  final procntrl = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.only(left: 8.0, top: 10),
+    return Padding(
+      padding: const EdgeInsets.only(left: 8.0, top: 10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            "Irshad",
-            style: normalTextStyleBlack,
-          ),
-          Text(
-            "Flutter Developer",
-            style: normalTextStyleBlack,
-          ),
-          Text(
-            "Kochi Kearala",
-            style: normalTextStyleBlack,
-          ),
+          StreamBuilder(
+              stream: procntrl.getInstance
+                  .doc(procntrl.auth.currentUser?.uid)
+                  .snapshots(),
+              builder: (context, AsyncSnapshot snapshot) {
+                return snapshot.hasData
+                    ? Text(
+                        snapshot.data['name'] == ''
+                            ? ''
+                            : snapshot.data['name'],
+                        style: normalTextStyleBlack,
+                      )
+                    : const Text(
+                        "username",
+                        style: normalTextStyleBlack,
+                      );
+              }),
+          StreamBuilder(
+              stream: procntrl.getInstance
+                  .doc(procntrl.auth.currentUser?.uid)
+                  .snapshots(),
+              builder: (context, AsyncSnapshot snapshot) {
+                return snapshot.hasData
+                    ? Text(
+                        snapshot.data['bio'] == '' ? '' : snapshot.data['bio'],
+                        style: normalTextStyleBlack,
+                      )
+                    : const Text(
+                        "bio",
+                        style: normalTextStyleBlack,
+                      );
+              }),
         ],
       ),
     );

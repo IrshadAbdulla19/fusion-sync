@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fusion_sync/application/auth_controller.dart';
+import 'package:fusion_sync/application/profile_controller.dart';
 import 'package:fusion_sync/domain/core/ui_constants/constants.dart';
 import 'package:get/get.dart';
 
@@ -7,17 +8,28 @@ class ProfileAppBar extends StatelessWidget {
   ProfileAppBar({super.key, required this.size, required this.contxt});
   Size size;
   BuildContext contxt;
+  final procntrl = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        const Padding(
+        Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Text(
-            "irshad_abdulla",
-            style: blodText500,
-          ),
+          child: StreamBuilder<Object>(
+              stream: procntrl.getInstance
+                  .doc(procntrl.auth.currentUser?.uid)
+                  .snapshots(),
+              builder: (context, AsyncSnapshot snapshot) {
+                return snapshot.hasData
+                    ? Text(
+                        snapshot.data['username'] ?? '',
+                        style: blodText500,
+                      )
+                    : const CircularProgressIndicator(
+                        color: kBlackColor,
+                      );
+              }),
         ),
         IconButton(
             onPressed: () {
@@ -33,12 +45,17 @@ class ProfileAppBar extends StatelessWidget {
     return showModalBottomSheet(
       context: contxt,
       builder: (context) {
-        return Container(
-          width: double.infinity,
-          height: size.height * 0.3,
-          decoration: BoxDecoration(
-              color: kWhiteColor, borderRadius: BorderRadius.circular(50)),
-          child: BottomSheetMenu(),
+        return ListView(
+          shrinkWrap: true,
+          children: [
+            Container(
+              width: double.infinity,
+              height: size.height * 0.3,
+              decoration: BoxDecoration(
+                  color: kWhiteColor, borderRadius: BorderRadius.circular(50)),
+              child: BottomSheetMenu(),
+            ),
+          ],
         );
       },
     );

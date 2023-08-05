@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fusion_sync/domain/core/ui_constants/constants.dart';
+import 'package:fusion_sync/presantetion/add_post/add_post_screen.dart';
+import 'package:get/get.dart';
 
 class PostsTopPart extends StatelessWidget {
   const PostsTopPart({
@@ -12,9 +14,16 @@ class PostsTopPart extends StatelessWidget {
       padding: const EdgeInsets.only(top: 8.0, left: 10),
       child: Row(
         children: [
-          const Icon(
-            Icons.image_outlined,
-            size: 30,
+          IconButton(
+              onPressed: () {
+                Get.to(AddPostScreen());
+              },
+              iconSize: 30,
+              icon: const Icon(
+                Icons.image_outlined,
+              )),
+          const SizedBox(
+            width: 10,
           ),
           Text(
             "Posts",

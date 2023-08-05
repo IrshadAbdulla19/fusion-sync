@@ -4,9 +4,10 @@ import 'package:fusion_sync/domain/core/ui_constants/constants.dart';
 import 'package:get/get.dart';
 
 class NavbuttonForSign extends StatelessWidget {
-  NavbuttonForSign({super.key, required this.text});
+  NavbuttonForSign({super.key, required this.text, required this.formkey});
   final cntrl = Get.put(AuthController());
   String text;
+  GlobalKey<FormState> formkey;
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +19,11 @@ class NavbuttonForSign extends StatelessWidget {
         child: Obx(
           () => TextButton(
               onPressed: () {
-                text == "SignUp" ? cntrl.signup() : cntrl.signIn();
+                if (formkey.currentState!.validate()) {
+                  text == "SignUp" ? cntrl.signup() : cntrl.signIn();
+                } else {
+                  Get.snackbar("error", "Please do the correct validation");
+                }
               },
               child: cntrl.loading.value
                   ? CircularProgressIndicator(

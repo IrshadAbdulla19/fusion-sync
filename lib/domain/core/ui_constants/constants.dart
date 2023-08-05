@@ -34,3 +34,9 @@ const normalTextStyleWhite =
 const blodText500 = TextStyle(fontWeight: FontWeight.w900, color: kBlackColor);
 const mainTextHeads =
     TextStyle(color: kBlackColor, fontWeight: FontWeight.w800, fontSize: 28);
+const circularProgresKBlack = CircularProgressIndicator(
+  color: kBlackColor,
+);
+const circularProgresKWhite = CircularProgressIndicator(
+  color: kWhiteColor,
+);

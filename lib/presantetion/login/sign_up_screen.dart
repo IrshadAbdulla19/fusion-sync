@@ -10,39 +10,47 @@ import 'package:get/get.dart';
 class SignUpScreen extends StatelessWidget {
   SignUpScreen({super.key});
   final cntrl = Get.put(AuthController());
+  final formkey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(color: kWhiteColor),
-        child: ListView(
-          children: [
-            SizedBox(
-              height: size.height * 0.06,
-            ),
-            const FusionSyncLogo(),
-            SizedBox(
-              height: size.height * 0.06,
-            ),
-            ForTextFormFileds(
-                cntrl: cntrl.username,
-                text: "Username",
-                hintText: "Enter your name",
-                labelText: "username"),
-            ForTextFormFileds(
-                cntrl: cntrl.email,
-                text: "Email Adress",
-                hintText: "Enter your Email",
-                labelText: "Email"),
-            ForTextFormFileds(
-                cntrl: cntrl.password,
-                text: "Password",
-                hintText: "Enter your password",
-                labelText: "password"),
-            NavbuttonForSign(text: "SignUp"),
-            AppSignForUser(foruser: "Already have an account ?", want: "SignIn")
-          ],
+        child: Form(
+          key: formkey,
+          child: ListView(
+            children: [
+              SizedBox(
+                height: size.height * 0.06,
+              ),
+              const FusionSyncLogo(),
+              SizedBox(
+                height: size.height * 0.06,
+              ),
+              ForTextFormFileds(
+                  cntrl: cntrl.username,
+                  text: "Username",
+                  hintText: "Enter your name",
+                  labelText: "username"),
+              ForTextFormFileds(
+                  cntrl: cntrl.email,
+                  text: "Email Adress",
+                  hintText: "Enter your Email",
+                  labelText: "Email"),
+              ForTextFormFileds(
+                  cntrl: cntrl.password,
+                  text: "Password",
+                  hintText: "Enter your password",
+                  labelText: "password"),
+              NavbuttonForSign(
+                text: "SignUp",
+                formkey: formkey,
+              ),
+              AppSignForUser(
+                  foruser: "Already have an account ?", want: "SignIn")
+            ],
+          ),
         ),
       ),
     );
