@@ -2,6 +2,7 @@ import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fusion_sync/domain/core/ui_constants/constants.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -17,12 +18,31 @@ class ProfileController extends GetxController {
 
   String? photoUrl;
   String? coverPhotoUrl;
+  String profile = userNonProfile;
   String name = '';
   String bio = '';
   String username = '';
   String email = '';
 
   var getInstance = FirebaseFirestore.instance.collection('user');
+
+  userDetiles() async {
+    try {
+      Stream<DocumentSnapshot<Map<String, dynamic>>> user =
+          getInstance.doc(auth.currentUser?.uid).snapshots();
+      var userData;
+      user.listen((snapshot) async {
+        if (snapshot.exists) {
+          userData = snapshot.data() as Map<String, dynamic>;
+          name = await userData['name'];
+          profile = await userData['profilePic'];
+        }
+      });
+    } catch (e) {
+      print('error $e');
+    }
+    print(name);
+  }
 
   addUserProfile() async {
     _firestore.collection('user').doc(auth.currentUser!.uid).update({

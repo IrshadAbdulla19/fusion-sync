@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fusion_sync/application/post_controller.dart';
 import 'package:fusion_sync/infrastructure/user_model.dart';
 import 'package:fusion_sync/presantetion/login/login_screen.dart';
 import 'package:fusion_sync/presantetion/main/main_screen.dart';
@@ -8,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthController extends GetxController {
+  final postCntrl = Get.put(PostController());
   FirebaseAuth auth = FirebaseAuth.instance;
   FirebaseFirestore db = FirebaseFirestore.instance;
   TextEditingController username = TextEditingController();
@@ -16,6 +18,7 @@ class AuthController extends GetxController {
   TextEditingController loginemail = TextEditingController();
   TextEditingController loginpassword = TextEditingController();
   TextEditingController resetemail = TextEditingController();
+  var getInstance = FirebaseFirestore.instance.collection('user');
   String profile = '';
   String coverPhoto = '';
   String name = '';
@@ -69,6 +72,7 @@ class AuthController extends GetxController {
           email: loginemail.text, password: loginpassword.text);
       auth.currentUser!.reload();
       if (auth.currentUser!.emailVerified == true) {
+        postCntrl.thisUserDetiles();
         Get.offAll(() => MainScreen());
         loginemail.clear();
         loginpassword.clear();

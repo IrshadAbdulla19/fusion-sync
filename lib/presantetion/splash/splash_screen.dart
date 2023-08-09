@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fusion_sync/application/post_controller.dart';
 import 'package:fusion_sync/presantetion/login/login_screen.dart';
 import 'package:fusion_sync/presantetion/main/main_screen.dart';
+import 'package:get/get.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -12,9 +14,11 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   FirebaseAuth auth = FirebaseAuth.instance;
+  final postCntrl = Get.put(PostController());
   @override
   void initState() {
     super.initState();
+    postCntrl.allUsresDetiles();
     forCheck();
   }
 

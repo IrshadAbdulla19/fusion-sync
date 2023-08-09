@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:fusion_sync/application/auth_controller.dart';
+import 'package:fusion_sync/application/post_controller.dart';
 import 'package:fusion_sync/application/profile_controller.dart';
 import 'package:fusion_sync/domain/core/ui_constants/constants.dart';
 import 'package:get/get.dart';
@@ -90,7 +91,7 @@ class ImagePickWidget extends StatelessWidget {
   ImagePickWidget({super.key, required this.type});
   String type;
   final procntrl = Get.put(ProfileController());
-  final authcntrl = Get.put(AuthController());
+  final authcntrl = Get.put(PostController());
 
   String? img;
   imgPick(ImageSource source, String type) async {
@@ -129,6 +130,7 @@ class ImagePickWidget extends StatelessWidget {
                       IconButton(
                           onPressed: () {
                             imgPick(ImageSource.camera, type);
+                            Get.back();
                           },
                           icon: Icon(Icons.camera_alt)),
                       const Text(
@@ -142,6 +144,7 @@ class ImagePickWidget extends StatelessWidget {
                       IconButton(
                           onPressed: () {
                             imgPick(ImageSource.gallery, type);
+                            Get.back();
                           },
                           icon: Icon(Icons.photo)),
                       const Text(

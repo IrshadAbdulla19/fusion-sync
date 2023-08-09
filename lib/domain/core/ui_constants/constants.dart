@@ -32,11 +32,18 @@ const normalTextStyleBlack =
 const normalTextStyleWhite =
     TextStyle(color: kWhiteColor, fontWeight: FontWeight.w700);
 const blodText500 = TextStyle(fontWeight: FontWeight.w900, color: kBlackColor);
-const mainTextHeads =
-    TextStyle(color: kBlackColor, fontWeight: FontWeight.w800, fontSize: 28);
+const miniText =
+    TextStyle(color: kBlackColor, fontWeight: FontWeight.w400, fontSize: 23);
 const circularProgresKBlack = CircularProgressIndicator(
   color: kBlackColor,
 );
+const mainTextHeads =
+    TextStyle(color: kBlackColor, fontWeight: FontWeight.w800, fontSize: 28);
+const miniTextHeads =
+    TextStyle(color: kBlackColor, fontWeight: FontWeight.w900, fontSize: 23);
+
 const circularProgresKWhite = CircularProgressIndicator(
   color: kWhiteColor,
 );
+const userNonProfile =
+    'https://image.shutterstock.com/image-vector/man-icon-flat-vector-260nw-1371568223.jpg';

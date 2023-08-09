@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserModel {
   String? id, username, name, email, profilePic, cover, bio, uid;
-  List followers;
-  List following;
+  List? followers;
+  List? following;
   UserModel(
       {this.id,
       this.uid,
@@ -12,13 +12,15 @@ class UserModel {
       this.profilePic,
       this.cover,
       this.bio,
-      required this.followers,
-      required this.following,
+      this.followers,
+      this.following,
       this.name});
   factory UserModel.fromMap(DocumentSnapshot map) {
     return UserModel(
         email: map['email'],
         username: map['username'],
+        profilePic: map['profilePic'],
+        bio: map['bio'],
         id: map.id,
         followers: map['Followers'],
         following: map['Following']);

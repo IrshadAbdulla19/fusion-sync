@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fusion_sync/application/post_controller.dart';
 import 'package:fusion_sync/application/profile_controller.dart';
 import 'package:fusion_sync/presantetion/profile/widgets/counts_in_profil.dart';
 import 'package:get/get.dart';
@@ -8,14 +9,17 @@ class SecondSection extends StatelessWidget {
     super.key,
   });
   final proCntrl = Get.put(ProfileController());
+  final postCntrl = Get.put(PostController());
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        CountsInProfile(
-          num: "4",
-          text: "Posts",
+        Obx(
+          () => CountsInProfile(
+            num: postCntrl.thisUserPost.length.toString(),
+            text: "Posts",
+          ),
         ),
         StreamBuilder(
             stream: proCntrl.getInstance

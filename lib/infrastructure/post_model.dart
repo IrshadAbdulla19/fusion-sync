@@ -1,15 +1,29 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class PostModel {
-  String? photoUrl, decription, time, uid;
+  String? id, photoUrl, decription, postId, uid;
+  DateTime? time;
   List? like;
-  List? comment;
 
   PostModel(
-      {this.photoUrl,
+      {this.id,
+      this.photoUrl,
       this.decription,
-      this.time,
       this.uid,
-      this.comment,
+      this.time,
+      this.postId,
       this.like});
+
+  factory PostModel.fromMap(DocumentSnapshot map) {
+    return PostModel(
+        photoUrl: map['photoUrl'],
+        decription: map['decription'],
+        uid: map['uid'],
+        time: map['time'],
+        id: map.id,
+        postId: map['postId'],
+        like: map['like']);
+  }
 
   Map<String, dynamic> tomap() {
     return {
@@ -17,7 +31,7 @@ class PostModel {
       'decription': decription,
       'time': time,
       'uid': uid,
-      'comment': [],
+      'postId': postId,
       'like': []
     };
   }

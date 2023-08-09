@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fusion_sync/application/post_controller.dart';
 import 'package:fusion_sync/application/profile_controller.dart';
 import 'package:fusion_sync/presantetion/profile/widgets/app_bar.dart';
 import 'package:fusion_sync/presantetion/profile/widgets/forth_section.dart';
@@ -11,9 +12,10 @@ import 'package:get/get.dart';
 
 class UserProfile extends StatelessWidget {
   UserProfile({super.key});
-
+  final postCntrl = Get.put(PostController());
   @override
   Widget build(BuildContext context) {
+    postCntrl.thisUserDetiles();
     Size size = MediaQuery.of(context).size;
     return Scaffold(
         appBar: PreferredSize(
@@ -22,24 +24,29 @@ class UserProfile extends StatelessWidget {
               contxt: context,
               size: size,
             )),
-        body: SingleChildScrollView(
-            physics: AlwaysScrollableScrollPhysics(),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                ProfileImagesWidget(
-                  size: size,
-                ),
-                SizedBox(
-                  height: size.height * 0.03,
-                ),
-                SecondSection(),
-                ThirdSection(),
-                FourthSection(size: size),
-                PostsTopPart(),
-                ProfilePosts()
-              ],
-            )));
+        body: RefreshIndicator(
+          child: SingleChildScrollView(
+              physics: AlwaysScrollableScrollPhysics(),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ProfileImagesWidget(
+                    size: size,
+                  ),
+                  SizedBox(
+                    height: size.height * 0.03,
+                  ),
+                  SecondSection(),
+                  ThirdSection(),
+                  FourthSection(size: size),
+                  PostsTopPart(),
+                  ProfilePosts()
+                ],
+              )),
+          onRefresh: () async {
+            postCntrl.thisUserDetiles();
+          },
+        ));
   }
 }
