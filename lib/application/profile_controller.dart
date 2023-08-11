@@ -11,7 +11,6 @@ class ProfileController extends GetxController {
   TextEditingController usernamecntrl = TextEditingController();
   TextEditingController namecntrl = TextEditingController();
   TextEditingController biocntrl = TextEditingController();
-
   final FirebaseStorage _storage = FirebaseStorage.instance;
   final FirebaseAuth auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -28,20 +27,18 @@ class ProfileController extends GetxController {
 
   userDetiles() async {
     try {
-      Stream<DocumentSnapshot<Map<String, dynamic>>> user =
-          getInstance.doc(auth.currentUser?.uid).snapshots();
-      var userData;
-      user.listen((snapshot) async {
-        if (snapshot.exists) {
-          userData = snapshot.data() as Map<String, dynamic>;
-          name = await userData['name'];
-          profile = await userData['profilePic'];
-        }
-      });
+      DocumentSnapshot<Map<String, dynamic>> user =
+          await getInstance.doc(auth.currentUser?.uid).get();
+      Map<String, dynamic> userData;
+
+      if (user.exists) {
+        userData = user.data() as Map<String, dynamic>;
+        username = await userData['username'];
+        profile = await userData['profilePic'];
+      }
     } catch (e) {
       print('error $e');
     }
-    print(name);
   }
 
   addUserProfile() async {

@@ -30,7 +30,7 @@ class PostWidget extends StatelessWidget {
   String profileUrl;
   String description;
   String username;
-
+  var isAnimating = false.obs;
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -42,33 +42,33 @@ class PostWidget extends StatelessWidget {
             size: size,
             image: profileUrl,
           ),
-          GestureDetector(
-            onDoubleTap: () async {
-              postCntrl.likePost(postCntrl.auth.currentUser?.uid ?? 'userid',
-                  postUserId, postId, likes);
-              postCntrl.allUsresDetiles();
-              postCntrl.isAnimating.value = true;
-            },
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                Container(
-                  width: double.infinity,
-                  height: size.height * 0.4,
-                  decoration: BoxDecoration(
-                    color: kBlackColor,
-                    image: DecorationImage(
-                        image: NetworkImage(image), fit: BoxFit.cover),
+          Obx(
+            () => GestureDetector(
+              onDoubleTap: () async {
+                postCntrl.likePost(postCntrl.auth.currentUser?.uid ?? 'userid',
+                    postUserId, postId, likes);
+                postCntrl.likeUserDetiles(postId, postUserId);
+                isAnimating.value = true;
+              },
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  Container(
+                    width: double.infinity,
+                    height: size.height * 0.4,
+                    decoration: BoxDecoration(
+                      color: kBlackColor,
+                      image: DecorationImage(
+                          image: NetworkImage(image), fit: BoxFit.cover),
+                    ),
                   ),
-                ),
-                Obx(
-                  () => AnimatedOpacity(
+                  AnimatedOpacity(
                     duration: const Duration(milliseconds: 50),
-                    opacity: postCntrl.isAnimating.value ? 1 : 0,
+                    opacity: isAnimating.value ? 1 : 0,
                     child: LikeAnimation(
-                      isAnimating: postCntrl.isAnimating.value,
+                      isAnimating: isAnimating.value,
                       onEnd: () {
-                        postCntrl.isAnimating.value = false;
+                        isAnimating.value = false;
                       },
                       child: const Icon(
                         Icons.favorite,
@@ -77,8 +77,8 @@ class PostWidget extends StatelessWidget {
                       ),
                     ),
                   ),
-                )
-              ],
+                ],
+              ),
             ),
           ),
           Text(
@@ -89,12 +89,12 @@ class PostWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Text(
-                '$username ',
-                style: miniTextHeads,
+                '@$username ',
+                style: miniText,
               ),
               Text(
                 '   $description',
-                style: miniText,
+                style: miniTextHeads,
               ),
             ],
           ),

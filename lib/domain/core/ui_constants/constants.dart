@@ -29,6 +29,10 @@ const int _blackPrimaryValue = 0xFF000000;
 
 const normalTextStyleBlack =
     TextStyle(color: kBlackColor, fontWeight: FontWeight.w700);
+const normalTextStyleGrey =
+    TextStyle(color: Colors.grey, fontWeight: FontWeight.w700);
+const normalTextStyleBlackHead =
+    TextStyle(color: kBlackColor, fontSize: 18, fontWeight: FontWeight.w900);
 const normalTextStyleWhite =
     TextStyle(color: kWhiteColor, fontWeight: FontWeight.w700);
 const blodText500 = TextStyle(fontWeight: FontWeight.w900, color: kBlackColor);

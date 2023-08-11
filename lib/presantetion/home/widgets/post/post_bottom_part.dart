@@ -31,9 +31,11 @@ class PostWidgetBottomPart extends StatelessWidget {
             text: "${likes.length} Likes",
           ),
         ),
-        PostCardBottomItems(
+        PostCardCommentBottomItems(
+          postId: postId,
+          postUserId: postUserId,
           icon: Icons.comment,
-          text: "16 comments",
+          text: " comments",
         ),
         PostCardBottomItems(
           icon: Icons.send,

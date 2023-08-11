@@ -15,7 +15,6 @@ class UserProfile extends StatelessWidget {
   final postCntrl = Get.put(PostController());
   @override
   Widget build(BuildContext context) {
-    postCntrl.thisUserDetiles();
     Size size = MediaQuery.of(context).size;
     return Scaffold(
         appBar: PreferredSize(

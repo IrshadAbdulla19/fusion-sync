@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fusion_sync/application/post_controller.dart';
+import 'package:fusion_sync/application/profile_controller.dart';
 import 'package:fusion_sync/domain/core/ui_constants/constants.dart';
 import 'package:fusion_sync/presantetion/home/widgets/fusion_sync_logo.dart';
 import 'package:fusion_sync/presantetion/home/widgets/post/post_widget.dart';
@@ -11,9 +12,11 @@ import 'package:intl/intl.dart';
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
   final postCntrl = Get.put(PostController());
+  final profileCntrl = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
-    postCntrl.allUsresDetiles();
+    postCntrl.allUsersGet();
+    profileCntrl.userDetiles();
     Size size = MediaQuery.of(context).size;
     return Scaffold(
         appBar: AppBar(
@@ -43,7 +46,7 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
           onRefresh: () async {
-            postCntrl.allUsresDetiles();
+            postCntrl.allUsresPostDetiles();
           },
         ));
   }
@@ -76,8 +79,8 @@ class ListOfPosts extends StatelessWidget {
                     var likes = userPostData['like'];
                     var postId = userPostData['postId'];
                     var postUserId = userPostData['uid'];
-                    DateTime now = userPostData['time'].toDate();
-                    String time = DateFormat.yMMMEd().format(now);
+                    String time = postCntrl
+                        .dateTimeFormatChange(userPostData['time'].toDate());
                     var description = userPostData['decription'];
                     for (var element in snapshot.data.docs) {
                       if (element['uid'] == userPostData['uid']) {

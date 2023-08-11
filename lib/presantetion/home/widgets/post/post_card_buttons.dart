@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fusion_sync/application/post_controller.dart';
 import 'package:fusion_sync/domain/core/ui_constants/constants.dart';
+import 'package:fusion_sync/presantetion/home/widgets/post/comment.dart';
 import 'package:get/get.dart';
 
 class PostCardLikeBottomItems extends StatelessWidget {
@@ -24,11 +26,47 @@ class PostCardLikeBottomItems extends StatelessWidget {
             onPressed: () {
               postCntrl.likePost(postCntrl.auth.currentUser?.uid ?? 'userid',
                   postUserId, postId, likes);
-              postCntrl.allUsresDetiles();
+              postCntrl.likeUserDetiles(postUserId, postId);
             },
             icon: likes.contains(postCntrl.auth.currentUser?.uid)
-                ? Icon(Icons.favorite)
-                : Icon(Icons.favorite_border)),
+                ? const Icon(Icons.favorite)
+                : const Icon(Icons.favorite_border)),
+        Text(
+          text,
+          style: normalTextStyleBlack,
+        )
+      ],
+    );
+  }
+}
+
+class PostCardCommentBottomItems extends StatelessWidget {
+  PostCardCommentBottomItems({
+    super.key,
+    required this.icon,
+    required this.text,
+    required this.postId,
+    required this.postUserId,
+  });
+  IconData icon;
+  String text;
+  String postId;
+  String postUserId;
+  final postCntrl = Get.put(PostController());
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        IconButton(
+            onPressed: () async {
+              await postCntrl.postCommentDetiles(postUserId, postId);
+              Get.to(CommentScreen(
+                postId: postId,
+                postUserId: postUserId,
+              ));
+            },
+            icon: Icon(icon)),
         Text(
           text,
           style: normalTextStyleBlack,

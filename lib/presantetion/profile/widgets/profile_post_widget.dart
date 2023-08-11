@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fusion_sync/application/post_controller.dart';
 import 'package:fusion_sync/domain/core/ui_constants/constants.dart';
 import 'package:get/get.dart';
+import 'package:photo_view/photo_view.dart';
 
 class ProfilePosts extends StatelessWidget {
   ProfilePosts({
@@ -9,12 +10,6 @@ class ProfilePosts extends StatelessWidget {
   });
 
   final postcntrl = Get.put(PostController());
-  var images = [
-    "asset/images/post 6.jpeg",
-    "asset/images/post 5.jpeg",
-    "asset/images/post 7.jpg",
-    "asset/images/post 8.webp"
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -30,9 +25,20 @@ class ProfilePosts extends StatelessWidget {
             var userPostData = postcntrl.thisUserPost[index];
             var image = userPostData['photoUrl'];
             var description = userPostData['decription'];
+            var postId = userPostData['postId'];
 
-            return ProfilePostWidget(
-              image: image,
+            return GestureDetector(
+              onTap: () {
+                print("its working");
+                Get.to(ProfilePostView(
+                  description: description,
+                  image: image,
+                  postId: postId,
+                ));
+              },
+              child: ProfilePostWidget(
+                image: image,
+              ),
             );
           },
         ),
@@ -41,18 +47,76 @@ class ProfilePosts extends StatelessWidget {
   }
 }
 
+class ProfilePostView extends StatelessWidget {
+  ProfilePostView(
+      {required this.image,
+      super.key,
+      required this.description,
+      required this.postId});
+  String image;
+  String description;
+  String postId;
+  final postCntrl = Get.put(PostController());
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+              onPressed: () {
+                Get.back();
+              },
+              icon: const Icon(Icons.arrow_back)),
+          title: Text(
+            description,
+            style: normalTextStyleWhite,
+          ),
+          actions: [
+            PopupMenuButton(
+              itemBuilder: (context) {
+                return [
+                  PopupMenuItem(
+                      child: Row(
+                    children: [
+                      IconButton(
+                        onPressed: () async {
+                          await postCntrl.deletePost(postId);
+                          Get.back();
+                          Get.back();
+                        },
+                        icon: const Icon(
+                          Icons.delete,
+                        ),
+                        color: kBlackColor,
+                      ),
+                      const Text(
+                        "Delete",
+                        style: normalTextStyleBlack,
+                      )
+                    ],
+                  ))
+                ];
+              },
+            )
+          ],
+        ),
+        body: Container(
+          child: PhotoView(imageProvider: NetworkImage(image)),
+        ));
+  }
+}
+
 class ProfilePostWidget extends StatelessWidget {
-  ProfilePostWidget({
-    required this.image,
-    super.key,
-  });
+  ProfilePostWidget({super.key, required this.image});
   String image;
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-          image: DecorationImage(image: NetworkImage(image), fit: BoxFit.cover),
-          color: kBlackColor),
+    return Scaffold(
+      body: Container(
+        decoration: BoxDecoration(
+            image:
+                DecorationImage(image: NetworkImage(image), fit: BoxFit.cover),
+            color: kBlackColor),
+      ),
     );
   }
 }
