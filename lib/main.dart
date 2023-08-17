@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:fusion_sync/domain/core/ui_constants/constants.dart';
-import 'package:fusion_sync/presantetion/splash/splash_screen.dart';
+import 'package:fusion_sync/model/ui_constants/constants.dart';
+import 'package:fusion_sync/view/splash/splash_screen.dart';
 import 'package:get/get.dart';
 
 void main() async {
