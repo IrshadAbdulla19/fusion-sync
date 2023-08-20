@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:fusion_sync/controller/nav_controller.dart';
 import 'package:fusion_sync/model/post_model.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -10,6 +11,7 @@ import 'package:uuid/uuid.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class PostController extends GetxController {
+  final navCntrlr = Get.put(NavController());
   final FirebaseStorage _storage = FirebaseStorage.instance;
   final FirebaseAuth auth = FirebaseAuth.instance;
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -23,21 +25,11 @@ class PostController extends GetxController {
   String? img;
   DateTime? time;
   String photoUrl = '';
-  RxList<DocumentSnapshot> allPost = <DocumentSnapshot>[].obs;
-  RxList<DocumentSnapshot> allUserDetiles = <DocumentSnapshot>[].obs;
-  RxList<DocumentSnapshot> allCommentList = <DocumentSnapshot>[].obs;
-  RxList<DocumentSnapshot> thisUserPost = <DocumentSnapshot>[].obs;
   var getInstance = FirebaseFirestore.instance.collection('userPosts');
 
-  getThisUser() async {
-    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-        .collection('userPosts')
-        .doc(auth.currentUser?.uid)
-        .collection('thisUser')
-        .get();
+// --------------------------for getting all users Deteiles---------------------
 
-    return querySnapshot;
-  }
+  RxList<DocumentSnapshot> allUserDetiles = <DocumentSnapshot>[].obs;
 
   allUsersGet() async {
     try {
@@ -50,21 +42,9 @@ class PostController extends GetxController {
     }
   }
 
-  postCommentDetiles(String postUserId, postId) async {
-    try {
-      QuerySnapshot<Map<String, dynamic>> getComments = await FirebaseFirestore
-          .instance
-          .collection('userPosts')
-          .doc(postUserId)
-          .collection('thisUser')
-          .doc(postId)
-          .collection('comments')
-          .get();
-      allCommentList.value = getComments.docs;
-    } catch (e) {
-      print('the error in post comment is $e');
-    }
-  }
+// -----------------------for getting all users posts---------------------------
+
+  RxList<DocumentSnapshot> allPost = <DocumentSnapshot>[].obs;
 
   allUsresPostDetiles() async {
     allPost.value.clear();
@@ -86,6 +66,10 @@ class PostController extends GetxController {
     }
   }
 
+// ---------------------for getting this users posts----------------------------
+
+  RxList<DocumentSnapshot> thisUserPost = <DocumentSnapshot>[].obs;
+
   thisUserDetiles() async {
     thisUserPost.value.clear();
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
@@ -97,27 +81,22 @@ class PostController extends GetxController {
     thisUserPost.refresh();
   }
 
-  likeUserDetiles(String postUserId, postId) async {
+// ---------------------fot getting posts of the Other user we want-------------
+
+  RxList<DocumentSnapshot> otherUserPost = <DocumentSnapshot>[].obs;
+
+  otherUserDetiles(String thisUserId) async {
+    otherUserPost.value.clear();
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('userPosts')
-        .doc(postUserId)
+        .doc(thisUserId)
         .collection('thisUser')
         .get();
-    List<DocumentSnapshot> allposts = querySnapshot.docs;
-    for (var i = 0; i < allposts.length; i++) {
-      var userpost = allposts[i];
-      if (postId == userpost['postId']) {
-        int indx = 0;
-        for (var element in allPost) {
-          if (element['postId'] == postId) {
-            allPost[indx] = userpost;
-            allPost.refresh();
-          }
-          indx++;
-        }
-      }
-    }
+    otherUserPost.value = querySnapshot.docs;
+    otherUserPost.refresh();
   }
+
+// --------------------------for adding posts-----------------------------------
 
   addPost() async {
     loadPost.value = true;
@@ -145,13 +124,17 @@ class PostController extends GetxController {
       } catch (e) {
         Get.snackbar("error", "$e");
       }
+      navCntrlr.index.value = 0;
       dicriptionCntrl.clear();
       imgFile.value = '';
       loadPost.value = false;
     } else {
       Get.snackbar("error", 'please select the image');
+      loadPost.value = false;
     }
   }
+
+// -------------------------for like the post-----------------------------------
 
   Future<void> likePost(
       String thisUserId, postUserId, postId, List likes) async {
@@ -180,6 +163,32 @@ class PostController extends GetxController {
     }
   }
 
+  // ---------------------------for updating the like-----------------------------
+
+  likeUserDetiles(String postUserId, postId) async {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('userPosts')
+        .doc(postUserId)
+        .collection('thisUser')
+        .get();
+    List<DocumentSnapshot> allposts = querySnapshot.docs;
+    for (var i = 0; i < allposts.length; i++) {
+      var userpost = allposts[i];
+      if (postId == userpost['postId']) {
+        int indx = 0;
+        for (var element in allPost) {
+          if (element['postId'] == postId) {
+            allPost[indx] = userpost;
+            allPost.refresh();
+          }
+          indx++;
+        }
+      }
+    }
+  }
+
+// ---------------------- for adding comments-----------------------------------
+
   postComments(String postId, postUserId, thisUserId) async {
     try {
       String id = const Uuid().v1();
@@ -202,6 +211,27 @@ class PostController extends GetxController {
     }
   }
 
+// -------------------for getting comments of each users------------------------
+
+  RxList<DocumentSnapshot> allCommentList = <DocumentSnapshot>[].obs;
+
+  postCommentDetiles(String postUserId, postId) async {
+    try {
+      QuerySnapshot<Map<String, dynamic>> getComments = await FirebaseFirestore
+          .instance
+          .collection('userPosts')
+          .doc(postUserId)
+          .collection('thisUser')
+          .doc(postId)
+          .collection('comments')
+          .get();
+      allCommentList.value = getComments.docs;
+    } catch (e) {
+      print('the error in post comment is $e');
+    }
+  }
+
+// -------------------------------- for delete the post-------------------------
   deletePost(String postId) async {
     try {
       await FirebaseFirestore.instance
@@ -217,6 +247,7 @@ class PostController extends GetxController {
     }
   }
 
+// ------------------------for image saving-------------------------------------
   saveImgToFireBase() async {
     if (_imgage != null) {
       img = await upLoadImageToStorage("userPost", _imgage!);
@@ -256,6 +287,8 @@ class PostController extends GetxController {
     load.value = false;
     return downLoadUrl;
   }
+
+// -------------------------for change format into time ago---------------------
 
   String dateTimeFormatChange(DateTime timeStamp) {
     return timeago.format(timeStamp, locale: 'en_long');

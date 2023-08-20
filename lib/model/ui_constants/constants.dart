@@ -27,6 +27,8 @@ const MaterialColor primaryBlack = MaterialColor(
 );
 const int _blackPrimaryValue = 0xFF000000;
 
+const kGreyClr = Colors.grey;
+
 const normalTextStyleBlack =
     TextStyle(color: kBlackColor, fontWeight: FontWeight.w700);
 const normalTextStyleGrey =
@@ -49,5 +51,5 @@ const miniTextHeads =
 const circularProgresKWhite = CircularProgressIndicator(
   color: kWhiteColor,
 );
-const userNonProfile =
+const nonUserNonProfile =
     'https://image.shutterstock.com/image-vector/man-icon-flat-vector-260nw-1371568223.jpg';

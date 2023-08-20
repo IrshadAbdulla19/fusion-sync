@@ -14,9 +14,6 @@ class HomeScreen extends StatelessWidget {
   final profileCntrl = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
-    postCntrl.allUsersGet();
-    profileCntrl.userDetiles();
-    postCntrl.thisUserDetiles();
     Size size = MediaQuery.of(context).size;
     return Scaffold(
         appBar: AppBar(

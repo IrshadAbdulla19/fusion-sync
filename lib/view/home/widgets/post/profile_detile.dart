@@ -18,7 +18,8 @@ class PostPofilePart extends StatelessWidget {
       children: [
         CircleAvatar(
           backgroundColor: kBlackColor,
-          backgroundImage: NetworkImage(image == '' ? userNonProfile : image),
+          backgroundImage:
+              NetworkImage(image == '' ? nonUserNonProfile : image),
         ),
         SizedBox(
           width: size.width * 0.02,

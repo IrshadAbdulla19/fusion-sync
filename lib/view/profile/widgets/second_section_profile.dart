@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fusion_sync/controller/post_controller.dart';
 import 'package:fusion_sync/controller/profile_controller.dart';
+import 'package:fusion_sync/model/ui_constants/constants.dart';
 import 'package:fusion_sync/view/profile/widgets/counts_in_profil.dart';
+import 'package:fusion_sync/view/widgets/other_user_profile/other_user_profile.dart';
 import 'package:get/get.dart';
 
 class SecondSection extends StatelessWidget {
@@ -27,14 +29,17 @@ class SecondSection extends StatelessWidget {
                 .snapshots(),
             builder: (context, AsyncSnapshot snapshot) {
               return snapshot.hasData
-                  ? CountsInProfile(
-                      num: snapshot.data['Followers'].length.toString(),
-                      text: "Followers",
+                  ? InkWell(
+                      onTap: () => Get.to(() => FollowListWidget(
+                            followList: snapshot.data['Followers'],
+                            head: 'Followers',
+                          )),
+                      child: CountsInProfile(
+                        num: snapshot.data['Followers'].length.toString(),
+                        text: "Followers",
+                      ),
                     )
-                  : CountsInProfile(
-                      num: "0",
-                      text: "Followers",
-                    );
+                  : circularProgresKBlack;
             }),
         StreamBuilder(
             stream: proCntrl.getInstance
@@ -42,14 +47,18 @@ class SecondSection extends StatelessWidget {
                 .snapshots(),
             builder: (context, AsyncSnapshot snapshot) {
               return snapshot.hasData
-                  ? CountsInProfile(
-                      num: snapshot.data['Following'].length.toString(),
-                      text: "Following",
+                  ? InkWell(
+                      onTap: () => Get.to(
+                        () => FollowListWidget(
+                            head: "Following",
+                            followList: snapshot.data['Following']),
+                      ),
+                      child: CountsInProfile(
+                        num: snapshot.data['Following'].length.toString(),
+                        text: "Following",
+                      ),
                     )
-                  : CountsInProfile(
-                      num: "0",
-                      text: "Following",
-                    );
+                  : circularProgresKBlack;
             }),
       ],
     );

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:fusion_sync/controller/post_controller.dart';
 import 'package:fusion_sync/controller/profile_controller.dart';
 import 'package:fusion_sync/model/ui_constants/constants.dart';
-import 'package:fusion_sync/view/home/widgets/other_user_profile/other_user_profile.dart';
 import 'package:fusion_sync/view/home/widgets/post/like_animation.dart';
 import 'package:fusion_sync/view/home/widgets/post/post_bottom_part.dart';
 import 'package:fusion_sync/view/home/widgets/post/post_card.dart';
@@ -55,7 +54,10 @@ class PostWidget extends StatelessWidget {
               onDoubleTap: () async {
                 postCntrl.likePost(postCntrl.auth.currentUser?.uid ?? 'userid',
                     postUserId, postId, likes);
-                postCntrl.likeUserDetiles(postId, postUserId);
+                postCntrl.likeUserDetiles(
+                  postUserId,
+                  postId,
+                );
                 isAnimating.value = true;
               },
               child: Stack(

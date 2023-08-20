@@ -1,12 +1,14 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fusion_sync/controller/search_controller.dart';
 import 'package:fusion_sync/model/ui_constants/constants.dart';
+import 'package:get/get.dart';
 
 class SearchScreen extends StatelessWidget {
-  const SearchScreen({super.key});
-
+  SearchScreen({super.key});
+  final searchCntrl = Get.put(SearchCntrl());
   @override
   Widget build(BuildContext context) {
+    searchCntrl.getAllUsers();
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -16,11 +18,17 @@ class SearchScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextFormField(
+                onChanged: (value) {
+                  searchCntrl.searchUserGet(value);
+                },
                 decoration: InputDecoration(
                     prefixIcon: IconButton(
                         onPressed: () {}, icon: const Icon(Icons.search)),
                     suffixIcon: IconButton(
-                        onPressed: () {}, icon: const Icon(Icons.cancel)),
+                        onPressed: () {
+                          searchCntrl.searchList.clear();
+                        },
+                        icon: const Icon(Icons.cancel)),
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20))),
               ),
@@ -28,24 +36,29 @@ class SearchScreen extends StatelessWidget {
             Flexible(
                 child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: ListView.builder(
-                physics: BouncingScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: 20,
-                itemBuilder: (context, index) {
-                  return const Card(
-                    child: ListTile(
-                      leading: CircleAvatar(
-                        backgroundImage: NetworkImage(
-                            'https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aHVtYW58ZW58MHx8MHx8fDA%3D&w=1000&q=80'),
+              child: Obx(
+                () => ListView.builder(
+                  physics: BouncingScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: searchCntrl.searchList.length,
+                  itemBuilder: (context, index) {
+                    var user = searchCntrl.searchList[index];
+                    String username = user['username'];
+                    String profile = user['profilePic'];
+                    return Card(
+                      child: ListTile(
+                        leading: CircleAvatar(
+                          backgroundImage: NetworkImage(
+                              profile == '' ? nonUserNonProfile : profile),
+                        ),
+                        title: Text(
+                          username,
+                          style: normalTextStyleBlack,
+                        ),
                       ),
-                      title: Text(
-                        'username',
-                        style: normalTextStyleBlack,
-                      ),
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               ),
             ))
           ],
