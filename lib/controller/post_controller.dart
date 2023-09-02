@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:fusion_sync/controller/nav_controller.dart';
+import 'package:fusion_sync/controller/notification_controller.dart';
 import 'package:fusion_sync/model/post_model.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -12,6 +13,7 @@ import 'package:timeago/timeago.dart' as timeago;
 
 class PostController extends GetxController {
   final navCntrlr = Get.put(NavController());
+  final notiCntrl = Get.put(NotificationController());
   final FirebaseStorage _storage = FirebaseStorage.instance;
   final FirebaseAuth auth = FirebaseAuth.instance;
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -91,6 +93,7 @@ class PostController extends GetxController {
         .collection('userPosts')
         .doc(thisUserId)
         .collection('thisUser')
+        .orderBy("time", descending: false)
         .get();
     otherUserPost.value = querySnapshot.docs;
     otherUserPost.refresh();
@@ -157,6 +160,8 @@ class PostController extends GetxController {
             .update({
           'like': FieldValue.arrayUnion([thisUserId])
         });
+        notiCntrl.notficationAdd(
+            postUserId, "Liked your pic", thisUserId, postId);
       }
     } catch (e) {
       Get.snackbar("error", '$e');
@@ -206,6 +211,9 @@ class PostController extends GetxController {
         'time': DateTime.now()
       });
       commentCntrl.clear();
+
+      notiCntrl.notficationAdd(
+          postUserId, "commented on your pic", thisUserId, postId);
     } catch (e) {
       Get.snackbar("error", "$e");
     }
@@ -239,6 +247,36 @@ class PostController extends GetxController {
           .doc(auth.currentUser?.uid)
           .collection('thisUser')
           .doc(postId)
+          .collection('comment')
+          .get()
+          .then((snap) {
+        for (var ds in snap.docs) {
+          ds.reference.delete();
+        }
+      });
+      await FirebaseFirestore.instance
+          .collection('userPosts')
+          .doc(auth.currentUser?.uid)
+          .collection('thisUser')
+          .doc(postId)
+          .delete();
+      thisUserDetiles();
+      allUsresPostDetiles();
+    } catch (e) {
+      print('$e');
+    }
+  }
+// -------------------------comment delete--------------------------------------
+
+  deletePostComment(String postId, commentId) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('userPosts')
+          .doc(auth.currentUser?.uid)
+          .collection('thisUser')
+          .doc(postId)
+          .collection('comments')
+          .doc(commentId)
           .delete();
       thisUserDetiles();
       allUsresPostDetiles();

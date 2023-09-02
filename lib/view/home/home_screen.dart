@@ -2,8 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fusion_sync/controller/post_controller.dart';
 import 'package:fusion_sync/controller/profile_controller.dart';
+import 'package:fusion_sync/controller/storie_controller.dart';
 import 'package:fusion_sync/model/ui_constants/constants.dart';
 import 'package:fusion_sync/view/home/widgets/fusion_sync_logo.dart';
+import 'package:fusion_sync/view/home/widgets/messege/messege.dart';
 import 'package:fusion_sync/view/home/widgets/post/post_widget.dart';
 import 'package:fusion_sync/view/home/widgets/storie_widget.dart';
 import 'package:get/get.dart';
@@ -12,6 +14,7 @@ class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
   final postCntrl = Get.put(PostController());
   final profileCntrl = Get.put(ProfileController());
+  final stryCntrl = Get.put(StorieController());
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -24,7 +27,9 @@ class HomeScreen extends StatelessWidget {
           ),
           actions: [
             IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Get.to(() => MessegeScreen());
+                },
                 iconSize: size.width * 0.08,
                 color: kBlackColor,
                 icon: const Icon(Icons.message))
@@ -37,13 +42,15 @@ class HomeScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                StoriePart(size: size),
+                Flexible(child: StoriePart(size: size)),
                 Flexible(child: ListOfPosts(size: size))
               ],
             ),
           ),
           onRefresh: () async {
             postCntrl.allUsresPostDetiles();
+            postCntrl.thisUserDetiles();
+            stryCntrl.getAllStorieOfuser();
           },
         ));
   }

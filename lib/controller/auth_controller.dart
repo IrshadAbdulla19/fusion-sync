@@ -59,6 +59,10 @@ class AuthController extends GetxController {
         following: []);
     print("hello user added");
     await db.collection("user").doc(auth.currentUser?.uid).set(user.tomap());
+    await db
+        .collection('chat_users_list')
+        .doc(auth.currentUser?.uid)
+        .set({"ChatList": []});
   }
 
   signOut() async {

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fusion_sync/controller/post_controller.dart';
 import 'package:fusion_sync/model/ui_constants/constants.dart';
 import 'package:fusion_sync/view/home/widgets/post/comment.dart';
+import 'package:fusion_sync/view/home/widgets/post/liked_users.dart';
 import 'package:get/get.dart';
 
 class PostCardLikeBottomItems extends StatelessWidget {
@@ -31,9 +32,12 @@ class PostCardLikeBottomItems extends StatelessWidget {
             icon: likes.contains(postCntrl.auth.currentUser?.uid)
                 ? const Icon(Icons.favorite)
                 : const Icon(Icons.favorite_border)),
-        Text(
-          text,
-          style: normalTextStyleBlack,
+        GestureDetector(
+          onTap: () => Get.to(() => LikedUsers(likes: likes)),
+          child: Text(
+            text,
+            style: normalTextStyleBlack,
+          ),
         )
       ],
     );

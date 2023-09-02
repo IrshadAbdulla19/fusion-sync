@@ -71,14 +71,18 @@ class OthersProfileImagesWidget extends StatelessWidget {
                       color: kBlackColor,
                       image: DecorationImage(
                           image: NetworkImage(
-                            profileCntrl.otherUserCover.value,
+                            profileCntrl.otherUserCover.value == ''
+                                ? nonUserNonProfile
+                                : profileCntrl.otherUserCover.value,
                           ),
                           fit: BoxFit.cover)))),
           Align(
               alignment: Alignment.bottomCenter,
               child: CircleAvatar(
-                backgroundImage:
-                    NetworkImage(profileCntrl.otherUserProfile.value),
+                backgroundImage: NetworkImage(
+                    profileCntrl.otherUserProfile.value == ''
+                        ? nonUserNonProfile
+                        : profileCntrl.otherUserProfile.value),
                 radius: size.width * 0.23,
               )),
         ],

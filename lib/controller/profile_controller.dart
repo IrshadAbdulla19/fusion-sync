@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fusion_sync/controller/nav_controller.dart';
+import 'package:fusion_sync/controller/notification_controller.dart';
 import 'package:fusion_sync/controller/post_controller.dart';
 import 'package:fusion_sync/model/ui_constants/constants.dart';
 import 'package:fusion_sync/view/widgets/other_user_profile/other_user_profile.dart';
@@ -13,6 +14,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 class ProfileController extends GetxController {
   final navCntrlr = Get.put(NavController());
   final postCntrl = Get.put(PostController());
+  final notiCntrl = Get.put(NotificationController());
   TextEditingController usernamecntrl = TextEditingController();
   TextEditingController namecntrl = TextEditingController();
   TextEditingController biocntrl = TextEditingController();
@@ -22,10 +24,10 @@ class ProfileController extends GetxController {
 
   String? photoUrl;
   String? coverPhotoUrl;
-  String profile = nonUserNonProfile;
+  var profile = nonUserNonProfile.obs;
   String name = '';
   String bio = '';
-  String username = '';
+  var username = ''.obs;
   String email = '';
 
   var getInstance = FirebaseFirestore.instance.collection('user');
@@ -40,8 +42,8 @@ class ProfileController extends GetxController {
 
       if (user.exists) {
         userData = user.data() as Map<String, dynamic>;
-        username = await userData['username'];
-        profile = await userData['profilePic'];
+        username.value = await userData['username'];
+        profile.value = await userData['profilePic'];
       }
     } catch (e) {
       print('error $e');
@@ -88,6 +90,7 @@ class ProfileController extends GetxController {
   }
 
 // ------------------------for adding profile photo-----------------------------
+
   addUserProfile() async {
     _firestore.collection('user').doc(auth.currentUser!.uid).update({
       'profilePic': photoUrl,
@@ -121,8 +124,6 @@ class ProfileController extends GetxController {
       List following = (sanp.data() as dynamic)['Following'];
 
       if (following.contains(followUid)) {
-        print(
-            '----------------------------------------------------the user s curretnt id $followUid---------------------------------------');
         await _firestore.collection('user').doc(followUid).update({
           'Followers': FieldValue.arrayRemove([currentUsrId])
         });
@@ -133,6 +134,7 @@ class ProfileController extends GetxController {
         await _firestore.collection('user').doc(followUid).update({
           'Followers': FieldValue.arrayUnion([currentUsrId])
         });
+        notiCntrl.notficationAdd(followUid, "Follows you", currentUsrId, "");
         await _firestore.collection('user').doc(currentUsrId).update({
           'Following': FieldValue.arrayUnion([followUid])
         });

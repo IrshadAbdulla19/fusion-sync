@@ -56,7 +56,7 @@ class AddPostScreen extends StatelessWidget {
                       size: size,
                     ))),
             ForTextFormFileds(
-                text: 'Caption',
+                text: '',
                 hintText: 'Add caption',
                 labelText: 'Caption',
                 cntrl: postCntrl.dicriptionCntrl),

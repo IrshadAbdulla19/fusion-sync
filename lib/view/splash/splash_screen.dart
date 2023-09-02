@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fusion_sync/controller/post_controller.dart';
+import 'package:fusion_sync/controller/storie_controller.dart';
 import 'package:fusion_sync/view/login/login_screen.dart';
 import 'package:fusion_sync/view/main/main_screen.dart';
 import 'package:get/get.dart';
@@ -15,6 +16,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   FirebaseAuth auth = FirebaseAuth.instance;
   final postCntrl = Get.put(PostController());
+  final stryCntl = Get.put(StorieController());
   @override
   void initState() {
     super.initState();
@@ -57,6 +59,8 @@ class _SplashScreenState extends State<SplashScreen> {
     if (auth.currentUser != null) {
       auth.currentUser!.reload();
       if (auth.currentUser!.emailVerified) {
+        postCntrl.thisUserDetiles();
+        stryCntl.getAllStorieOfuser();
         // ignore: use_build_context_synchronously
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) {

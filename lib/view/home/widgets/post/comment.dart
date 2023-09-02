@@ -38,35 +38,53 @@ class CommentScreen extends StatelessWidget {
                 itemBuilder: (context, index) {
                   var username = '';
                   var profilePic = '';
+                  var userId = '';
                   var user = postCntrl.allCommentList[index];
                   var time =
                       postCntrl.dateTimeFormatChange(user['time'].toDate());
                   var comment = user['comment'];
+                  var commentId = user['commentId'];
                   for (var element in postCntrl.allUserDetiles) {
                     if (user['commentedUSerId'] == element['uid']) {
                       username = element['username'];
                       profilePic = element['profilePic'];
+                      userId = element['uid'];
                     }
                   }
                   return ListTile(
                     leading: CircleAvatar(
                       backgroundImage: NetworkImage(profilePic),
                     ),
-                    title: Row(
-                      children: [
-                        Text(
-                          username,
-                          style: normalTextStyleBlackHead,
-                        ),
-                        Text(
-                          comment,
-                          style: normalTextStyleGrey,
-                        ),
-                      ],
+                    title: Text(
+                      username,
+                      style: normalTextStyleGrey,
                     ),
-                    trailing: Text(
-                      time,
-                      style: normalTextStyleBlack,
+                    subtitle: Text(
+                      comment,
+                      style: normalTextStyleBlackHead,
+                    ),
+                    trailing: Wrap(
+                      children: [
+                        Column(
+                          children: [
+                            Text(
+                              time,
+                              style: normalTextStyleBlack,
+                            ),
+                            userId == postCntrl.auth.currentUser!.uid
+                                ? IconButton(
+                                    onPressed: () {
+                                      postCntrl.deletePostComment(
+                                          postId, commentId);
+                                      postCntrl.postCommentDetiles(
+                                          postUserId, postId);
+                                    },
+                                    color: kBlackColor,
+                                    icon: Icon(Icons.delete))
+                                : SizedBox()
+                          ],
+                        )
+                      ],
                     ),
                   );
                 },
@@ -78,7 +96,9 @@ class CommentScreen extends StatelessWidget {
             child: Row(
               children: [
                 CircleAvatar(
-                  backgroundImage: NetworkImage(profileCntrl.profile),
+                  backgroundImage: NetworkImage(profileCntrl.profile.value == ''
+                      ? nonUserNonProfile
+                      : profileCntrl.profile.value),
                 ),
                 Expanded(
                   child: Padding(
@@ -92,7 +112,7 @@ class CommentScreen extends StatelessWidget {
                               onPressed: () {
                                 postCntrl.postComments(postId, postUserId,
                                     postCntrl.auth.currentUser?.uid);
-                                profileCntrl.userDetiles();
+                                // profileCntrl.userDetiles();
                                 postCntrl.postCommentDetiles(
                                     postUserId, postId);
                               },
