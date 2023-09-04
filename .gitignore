@@ -45,4 +45,4 @@ app.*.map.json
 
 # the constants that used in fusion sync
 
-lib/model/ui_constants/constants.dart
+/lib/model/ui_constants/constants.dart
