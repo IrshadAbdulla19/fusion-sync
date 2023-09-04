@@ -22,7 +22,7 @@ class ForTextFormFileds extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15),
           child: Text(
             text,
-            style: const TextStyle(
+            style: TextStyle(
                 fontSize: 20, fontWeight: FontWeight.w600, color: kBlackColor),
           ),
         ),

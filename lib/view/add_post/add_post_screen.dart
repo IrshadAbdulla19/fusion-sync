@@ -28,7 +28,7 @@ class AddPostScreen extends StatelessWidget {
               icon: const Icon(Icons.close)),
           backgroundColor: Colors.transparent,
           elevation: 0,
-          title: const Text(
+          title: Text(
             "New Post",
             style: mainTextHeads,
           ),
@@ -74,7 +74,7 @@ class AddPostScreen extends StatelessWidget {
                           onPressed: () {
                             postCntrl.addPost();
                           },
-                          child: const Text(
+                          child: Text(
                             'Post',
                             style: normalTextStyleWhite,
                           )),
@@ -112,7 +112,7 @@ class PostImagePickWidget extends StatelessWidget {
                               Get.back();
                             },
                             icon: const Icon(Icons.camera_alt)),
-                        const Text(
+                        Text(
                           'Camera',
                           style: normalTextStyleBlack,
                         )
@@ -127,7 +127,7 @@ class PostImagePickWidget extends StatelessWidget {
                               Get.back();
                             },
                             icon: const Icon(Icons.photo)),
-                        const Text(
+                        Text(
                           'Gellery',
                           style: normalTextStyleBlack,
                         )

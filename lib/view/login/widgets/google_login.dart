@@ -26,7 +26,7 @@ class GoogleLogin extends StatelessWidget {
                 onPressed: () {
                   cntrl.signInwithGoogle();
                 },
-                child: const Text(
+                child: Text(
                   "SigIn With Google",
                   style: normalTextStyleWhite,
                 )),

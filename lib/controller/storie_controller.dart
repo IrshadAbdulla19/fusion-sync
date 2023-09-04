@@ -40,8 +40,8 @@ class StorieController extends GetxController {
 
 // --------------------------------For add stories------------------------------
 
-  Timer? deleteTimer;
   addStorie(String userId) async {
+    Timer? deleteTimer;
     loadPost.value = true;
     await saveImgToFireBase();
     final newPost = StorieModel(

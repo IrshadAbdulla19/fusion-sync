@@ -30,7 +30,7 @@ class FourthSection extends StatelessWidget {
                         builder: (context) => EditProfilScreen(),
                       ));
                 },
-                child: const Text(
+                child: Text(
                   "Edit Profile",
                   style: normalTextStyleWhite,
                 )),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fusion_sync/controller/profile_controller.dart';
 import 'package:fusion_sync/controller/search_controller.dart';
 import 'package:fusion_sync/model/ui_constants/constants.dart';
 import 'package:get/get.dart';
@@ -6,6 +7,7 @@ import 'package:get/get.dart';
 class SearchScreen extends StatelessWidget {
   SearchScreen({super.key});
   final searchCntrl = Get.put(SearchCntrl());
+  final profilCntrl = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     searchCntrl.getAllUsers();
@@ -18,6 +20,7 @@ class SearchScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextFormField(
+                controller: searchCntrl.searchCntrl,
                 onChanged: (value) {
                   searchCntrl.searchUserGet(value);
                 },
@@ -27,6 +30,7 @@ class SearchScreen extends StatelessWidget {
                     suffixIcon: IconButton(
                         onPressed: () {
                           searchCntrl.searchList.clear();
+                          searchCntrl.searchCntrl.clear();
                         },
                         icon: const Icon(Icons.cancel)),
                     border: OutlineInputBorder(
@@ -45,15 +49,21 @@ class SearchScreen extends StatelessWidget {
                     var user = searchCntrl.searchList[index];
                     String username = user['username'];
                     String profile = user['profilePic'];
-                    return Card(
-                      child: ListTile(
-                        leading: CircleAvatar(
-                          backgroundImage: NetworkImage(
-                              profile == '' ? nonUserNonProfile : profile),
-                        ),
-                        title: Text(
-                          username,
-                          style: normalTextStyleBlack,
+                    String uid = user['uid'];
+                    return GestureDetector(
+                      onTap: () {
+                        profilCntrl.otherUserDetiles(uid);
+                      },
+                      child: Card(
+                        child: ListTile(
+                          leading: CircleAvatar(
+                            backgroundImage: NetworkImage(
+                                profile == '' ? nonUserNonProfile : profile),
+                          ),
+                          title: Text(
+                            username,
+                            style: normalTextStyleBlack,
+                          ),
                         ),
                       ),
                     );

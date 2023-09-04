@@ -27,7 +27,7 @@ class ThirdSection extends StatelessWidget {
                             : snapshot.data['name'],
                         style: normalTextStyleBlack,
                       )
-                    : const Text(
+                    : Text(
                         "username",
                         style: normalTextStyleBlack,
                       );
@@ -42,7 +42,7 @@ class ThirdSection extends StatelessWidget {
                         snapshot.data['bio'] == '' ? '' : snapshot.data['bio'],
                         style: normalTextStyleBlack,
                       )
-                    : const Text(
+                    : Text(
                         "bio",
                         style: normalTextStyleBlack,
                       );

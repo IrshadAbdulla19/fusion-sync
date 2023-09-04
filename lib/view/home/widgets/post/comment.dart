@@ -20,11 +20,11 @@ class CommentScreen extends StatelessWidget {
             onPressed: () {
               Get.back();
             },
-            icon: const Icon(
+            icon: Icon(
               Icons.arrow_back,
               color: kBlackColor,
             )),
-        title: const Text(
+        title: Text(
           "Comments",
           style: normalTextStyleBlack,
         ),
@@ -116,7 +116,7 @@ class CommentScreen extends StatelessWidget {
                                 postCntrl.postCommentDetiles(
                                     postUserId, postId);
                               },
-                              child: const Text(
+                              child: Text(
                                 'Post',
                                 style: normalTextStyleBlack,
                               ))),

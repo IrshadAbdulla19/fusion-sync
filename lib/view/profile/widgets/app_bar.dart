@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fusion_sync/controller/auth_controller.dart';
 import 'package:fusion_sync/controller/profile_controller.dart';
 import 'package:fusion_sync/model/ui_constants/constants.dart';
+import 'package:fusion_sync/view/profile/extra_widgets/settings/settings_screen.dart';
 import 'package:get/get.dart';
 
 class ProfileAppBar extends StatelessWidget {
@@ -26,7 +27,7 @@ class ProfileAppBar extends StatelessWidget {
                         snapshot.data['username'] ?? '',
                         style: blodText500,
                       )
-                    : const CircularProgressIndicator(
+                    : CircularProgressIndicator(
                         color: kBlackColor,
                       );
               }),
@@ -87,6 +88,7 @@ class BottomSheetMenu extends StatelessWidget {
         IconButton(
             onPressed: () {
               if (text == "Settings") {
+                Get.to(() => SettingsScreen());
               } else if (text == "Verify Account") {
               } else if (text == "Saved") {
               } else if (text == "LogOut") {

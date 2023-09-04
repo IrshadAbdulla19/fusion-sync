@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:fusion_sync/controller/theme_contoller.dart';
+import 'package:get/get.dart';
 
-final textFormDoc = InputDecoration(
+const String serverKey =
+    "AAAAtPztbSg:APA91bEVoOSJZ6C-ykJoSx63aJ9Z5zNcBPsUkhEvARINCyq6AbdNhnixSaRsIbltG5wH3lI3uUKHwVmSKs8Ad2bte7c9Vl4tvbTwW7PgGd9jBYMfyawmT5X4lWK61Xrn3n3VLLj2ooVC";
+final themeCntrl = Get.put(ThemeController());
+var textFormDoc = InputDecoration(
     labelStyle: const TextStyle(color: Colors.black),
     focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(15),
@@ -8,8 +13,8 @@ final textFormDoc = InputDecoration(
     border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(15),
         borderSide: const BorderSide(color: Colors.black)));
-const kBlackColor = Colors.black;
-const kWhiteColor = Colors.white;
+var kBlackColor = Colors.black;
+var kWhiteColor = Colors.white;
 const MaterialColor primaryBlack = MaterialColor(
   _blackPrimaryValue,
   <int, Color>{
@@ -26,29 +31,45 @@ const MaterialColor primaryBlack = MaterialColor(
   },
 );
 const int _blackPrimaryValue = 0xFF000000;
+const MaterialColor primaryWhite = MaterialColor(
+  _whitePrimaryValue,
+  <int, Color>{
+    50: Color(0xFFFFFFFF),
+    100: Color(0xFFFFFFFF),
+    200: Color(0xFFFFFFFF),
+    300: Color(0xFFFFFFFF),
+    400: Color(0xFFFFFFFF),
+    500: Color(_whitePrimaryValue),
+    600: Color(0xFFFFFFFF),
+    700: Color(0xFFFFFFFF),
+    800: Color(0xFFFFFFFF),
+    900: Color(0xFFFFFFFF),
+  },
+);
+const int _whitePrimaryValue = 0xFFFFFFFF;
 
 const kGreyClr = Colors.grey;
 
-const normalTextStyleBlack =
+var normalTextStyleBlack =
     TextStyle(color: kBlackColor, fontWeight: FontWeight.w700);
 const normalTextStyleGrey =
     TextStyle(color: Colors.grey, fontWeight: FontWeight.w700);
-const normalTextStyleBlackHead =
+var normalTextStyleBlackHead =
     TextStyle(color: kBlackColor, fontSize: 18, fontWeight: FontWeight.w900);
-const normalTextStyleWhite =
+var normalTextStyleWhite =
     TextStyle(color: kWhiteColor, fontWeight: FontWeight.w700);
-const blodText500 = TextStyle(fontWeight: FontWeight.w900, color: kBlackColor);
-const miniText =
-    TextStyle(color: kBlackColor, fontWeight: FontWeight.w400, fontSize: 23);
-const circularProgresKBlack = CircularProgressIndicator(
+var blodText500 = TextStyle(fontWeight: FontWeight.w900, color: kBlackColor);
+var miniText =
+    TextStyle(color: kBlackColor, fontWeight: FontWeight.w400, fontSize: 18);
+var circularProgresKBlack = CircularProgressIndicator(
   color: kBlackColor,
 );
-const mainTextHeads =
-    TextStyle(color: kBlackColor, fontWeight: FontWeight.w800, fontSize: 28);
-const miniTextHeads =
-    TextStyle(color: kBlackColor, fontWeight: FontWeight.w900, fontSize: 23);
+var mainTextHeads =
+    TextStyle(color: kBlackColor, fontWeight: FontWeight.w800, fontSize: 15);
+var miniTextHeads =
+    TextStyle(color: kBlackColor, fontWeight: FontWeight.w900, fontSize: 18);
 
-const circularProgresKWhite = CircularProgressIndicator(
+var circularProgresKWhite = CircularProgressIndicator(
   color: kWhiteColor,
 );
 const nonUserNonProfile =

@@ -5,12 +5,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:fusion_sync/model/ui_constants/constants.dart';
 import 'package:http/http.dart' as http;
 
 class LocalNotificationService {
-  static String serverKey =
-      "AAAAtPztbSg:APA91bEVoOSJZ6C-ykJoSx63aJ9Z5zNcBPsUkhEvARINCyq6AbdNhnixSaRsIbltG5wH3lI3uUKHwVmSKs8Ad2bte7c9Vl4tvbTwW7PgGd9jBYMfyawmT5X4lWK61Xrn3n3VLLj2ooVC";
-
   static final FlutterLocalNotificationsPlugin
       _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 

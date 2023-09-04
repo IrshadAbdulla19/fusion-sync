@@ -88,7 +88,7 @@ class ProfilePostView extends StatelessWidget {
                         ),
                         color: kBlackColor,
                       ),
-                      const Text(
+                      Text(
                         "Delete",
                         style: normalTextStyleBlack,
                       )

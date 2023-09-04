@@ -33,9 +33,9 @@ class ProfileImagesWidget extends StatelessWidget {
                           width: double.infinity,
                           height: size.height * 0.28,
                           decoration: snapshot.data['cover'] == ''
-                              ? const BoxDecoration(
+                              ? BoxDecoration(
                                   color: kBlackColor,
-                                  image: DecorationImage(
+                                  image: const DecorationImage(
                                       image: AssetImage(
                                         "asset/images/cover blank.jpg",
                                       ),
@@ -132,7 +132,7 @@ class ImagePickWidget extends StatelessWidget {
                             Get.back();
                           },
                           icon: Icon(Icons.camera_alt)),
-                      const Text(
+                      Text(
                         'Camera',
                         style: normalTextStyleBlack,
                       )
@@ -146,7 +146,7 @@ class ImagePickWidget extends StatelessWidget {
                             Get.back();
                           },
                           icon: Icon(Icons.photo)),
-                      const Text(
+                      Text(
                         'Gellery',
                         style: normalTextStyleBlack,
                       )

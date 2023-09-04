@@ -163,7 +163,7 @@ class AddStorieScreen extends StatelessWidget {
               icon: const Icon(Icons.close)),
           backgroundColor: Colors.transparent,
           elevation: 0,
-          title: const Text(
+          title: Text(
             "Add Storie",
             style: mainTextHeads,
           ),
@@ -201,13 +201,13 @@ class AddStorieScreen extends StatelessWidget {
                       color: kBlackColor,
                       borderRadius: BorderRadius.circular(10)),
                   child: stryCntrl.loadPost.value
-                      ? const Center(child: circularProgresKWhite)
+                      ? Center(child: circularProgresKWhite)
                       : TextButton(
                           onPressed: () {
                             stryCntrl
                                 .addStorie(stryCntrl.auth.currentUser!.uid);
                           },
-                          child: const Text(
+                          child: Text(
                             'Post',
                             style: normalTextStyleWhite,
                           )),
@@ -245,7 +245,7 @@ class StorieImagePickWidget extends StatelessWidget {
                               Get.back();
                             },
                             icon: const Icon(Icons.camera_alt)),
-                        const Text(
+                        Text(
                           'Camera',
                           style: normalTextStyleBlack,
                         )
@@ -260,7 +260,7 @@ class StorieImagePickWidget extends StatelessWidget {
                               Get.back();
                             },
                             icon: const Icon(Icons.photo)),
-                        const Text(
+                        Text(
                           'Gellery',
                           style: normalTextStyleBlack,
                         )

@@ -19,7 +19,7 @@ class SigninScreen extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(color: kWhiteColor),
+        decoration: BoxDecoration(color: kWhiteColor),
         child: SafeArea(
           child: Padding(
             padding: const EdgeInsets.only(top: 60),
@@ -54,7 +54,7 @@ class SigninScreen extends StatelessWidget {
                                   builder: (context) => ForfotPasswordScreen(),
                                 ));
                           },
-                          child: const Text(
+                          child: Text(
                             "Forgot password ?",
                             style: blodText500,
                           ))

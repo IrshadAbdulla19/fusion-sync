@@ -19,7 +19,7 @@ class EditProfilScreen extends StatelessWidget {
             icon: Icon(Icons.cancel)),
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: const Text(
+        title: Text(
           "irshad_abulla",
           style: blodText500,
         ),
@@ -109,7 +109,7 @@ class EditProfileForm extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15),
           child: Text(
             text,
-            style: const TextStyle(
+            style: TextStyle(
                 fontSize: 20, fontWeight: FontWeight.w600, color: kBlackColor),
           ),
         ),

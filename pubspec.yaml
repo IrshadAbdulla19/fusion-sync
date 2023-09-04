@@ -44,6 +44,7 @@ dependencies:
   intl: ^0.18.1
   photo_view: ^0.14.0
   timeago: ^3.5.0
+  toggle_switch: ^2.1.0
   uuid: ^3.0.7
 
 dev_dependencies:
@@ -91,5 +92,11 @@ flutter:
     - family: Handlee
       fonts:
         - asset: asset/fonts/Handlee-Regular.ttf
+    - family: Oswald
+      fonts:
+        - asset: asset\fonts\Oswald-VariableFont_wght.ttf
+    - family: Changa
+      fonts:
+        - asset: asset\fonts\Changa-VariableFont_wght.ttf
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

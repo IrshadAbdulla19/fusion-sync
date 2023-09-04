@@ -16,7 +16,7 @@ class SignUpScreen extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(color: kWhiteColor),
+        decoration: BoxDecoration(color: kWhiteColor),
         child: Form(
           key: formkey,
           child: ListView(

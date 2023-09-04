@@ -13,20 +13,22 @@ class NotificationController extends GetxController {
     var id = const Uuid().v1();
     var time = DateTime.now();
     try {
-      NotificationModel newNotification = NotificationModel(
-          thisUserId: thisUserId,
-          notificationId: id,
-          content: content,
-          postId: postId,
-          othetUserId: otheruserId,
-          time: time);
+      if (thisUserId != otheruserId) {
+        NotificationModel newNotification = NotificationModel(
+            thisUserId: thisUserId,
+            notificationId: id,
+            content: content,
+            postId: postId,
+            othetUserId: otheruserId,
+            time: time);
 
-      await _firestore
-          .collection('notification')
-          .doc(thisUserId)
-          .collection('thisUserNotification')
-          .doc(id)
-          .set(newNotification.toMap());
+        await _firestore
+            .collection('notification')
+            .doc(thisUserId)
+            .collection('thisUserNotification')
+            .doc(id)
+            .set(newNotification.toMap());
+      }
     } catch (e) {
       print("the erorr is $e");
     }

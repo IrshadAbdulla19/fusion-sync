@@ -15,7 +15,7 @@ class NotificationScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: const Text("Notifications", style: mainTextHeads),
+        title: Text("Notifications", style: mainTextHeads),
       ),
       body: RefreshIndicator(
         onRefresh: () async {

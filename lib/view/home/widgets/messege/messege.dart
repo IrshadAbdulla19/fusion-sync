@@ -24,7 +24,7 @@ class MessegeScreen extends StatelessWidget {
             )),
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: const Text(
+        title: Text(
           "Messege",
           style: normalTextStyleBlackHead,
         ),
@@ -34,7 +34,7 @@ class MessegeScreen extends StatelessWidget {
                 Get.to(() => FollowersListForMessage());
               },
               color: kBlackColor,
-              icon: const Icon(Icons.add))
+              icon: const Icon(Icons.search))
         ],
       ),
       body: StreamBuilder(
@@ -49,7 +49,7 @@ class MessegeScreen extends StatelessWidget {
               );
             }
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Text(
+              return Text(
                 "Loading...",
                 style: normalTextStyleBlack,
               );
@@ -195,21 +195,25 @@ class MessegeInbox extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-            onPressed: () {
-              Get.back();
-            },
-            color: kBlackColor,
-            icon: const Icon(
-              Icons.arrow_back,
-            )),
+        automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
         elevation: 0,
         title: Row(
           children: [
+            IconButton(
+                onPressed: () {
+                  Get.back();
+                },
+                color: kBlackColor,
+                icon: const Icon(
+                  Icons.arrow_back,
+                )),
             CircleAvatar(
               backgroundImage: NetworkImage(
                   profilePic == '' ? nonUserNonProfile : profilePic),
+            ),
+            const SizedBox(
+              width: 10,
             ),
             Text(
               username,
@@ -219,41 +223,42 @@ class MessegeInbox extends StatelessWidget {
         ),
       ),
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Expanded(
             child: _buildMessageList(),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 14.0),
-            child: Card(
-              color: Color.fromARGB(255, 92, 133, 161),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10)),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextFormField(
-                        controller: messageCntrl.messageCntrl,
-                        decoration: InputDecoration(
-                            hintText: 'Text here',
-                            border: InputBorder.none,
-                            suffixIcon: IconButton(
-                                onPressed: () async {
-                                  await messageCntrl.sendMessage(recevierUid);
-                                  LocalNotificationService.sendNotification(
-                                      title: "New message",
-                                      message: messageCntrl.messageCntrl.text,
-                                      token: fcmToken);
-                                  messageCntrl.messageCntrl.clear();
-                                },
-                                icon: const Icon(Icons.send))),
-                      ),
+          Card(
+            shadowColor: kBlackColor,
+            elevation: 7,
+            color: kWhiteColor,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 2.0, horizontal: 5),
+                    child: TextFormField(
+                      controller: messageCntrl.messageCntrl,
+                      decoration: InputDecoration(
+                          hintText: 'Message',
+                          border: InputBorder.none,
+                          suffixIcon: IconButton(
+                              onPressed: () async {
+                                await messageCntrl.sendMessage(recevierUid);
+                                LocalNotificationService.sendNotification(
+                                    title: "New message",
+                                    message: messageCntrl.messageCntrl.text,
+                                    token: fcmToken);
+                                messageCntrl.messageCntrl.clear();
+                              },
+                              icon: const Icon(Icons.send))),
                     ),
-                  )
-                ],
-              ),
+                  ),
+                )
+              ],
             ),
           ),
         ],
@@ -273,7 +278,7 @@ class MessegeInbox extends StatelessWidget {
           );
         }
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Text(
+          return Text(
             "Waiting...",
             style: normalTextStyleBlack,
           );
@@ -296,34 +301,39 @@ class MessegeInbox extends StatelessWidget {
         ? Alignment.centerRight
         : Alignment.centerLeft;
     var color = (data['SenderId'] == messageCntrl.auth.currentUser!.uid)
-        ? Colors.blue
-        : Colors.grey;
+        ? kBlackColor
+        : kWhiteColor;
+    var txtStyle = (data['SenderId'] == messageCntrl.auth.currentUser!.uid)
+        ? normalTextStyleWhite
+        : normalTextStyleBlack;
     var format = DateFormat.jm().format(data['Time'].toDate());
     return Container(
       margin: const EdgeInsets.all(2),
       alignment: alignment,
-      child: Column(children: [
-        Container(
-          decoration: BoxDecoration(
-              color: color, borderRadius: BorderRadius.circular(10)),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text(
-                  data['Messege'],
-                  style: normalTextStyleBlack.copyWith(fontSize: 18),
-                ),
-                Text(
-                  format,
-                  style: normalTextStyleBlack.copyWith(fontSize: 12),
-                ),
-              ],
+      child: Card(
+        child: Column(children: [
+          Container(
+            decoration: BoxDecoration(
+                color: color, borderRadius: BorderRadius.circular(10)),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    data['Messege'],
+                    style: txtStyle.copyWith(fontSize: 18),
+                  ),
+                  Text(
+                    format,
+                    style: txtStyle.copyWith(fontSize: 12),
+                  ),
+                ],
+              ),
             ),
-          ),
-        )
-      ]),
+          )
+        ]),
+      ),
     );
   }
 }

@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class SearchCntrl extends GetxController {
   final FirebaseFirestore _firestroe = FirebaseFirestore.instance;
   final FirebaseAuth auth = FirebaseAuth.instance;
+  TextEditingController searchCntrl = TextEditingController();
   RxList searchList = [].obs;
   List alluser = [];
 
