@@ -4,6 +4,7 @@ import 'package:fusion_sync/controller/profile_controller.dart';
 import 'package:fusion_sync/model/ui_constants/constants.dart';
 import 'package:fusion_sync/view/profile/widgets/counts_in_profil.dart';
 import 'package:fusion_sync/view/profile/widgets/profile_post_widget.dart';
+import 'package:fusion_sync/view/widgets/follow_list.dart';
 import 'package:get/get.dart';
 import 'package:photo_view/photo_view.dart';
 
@@ -282,55 +283,5 @@ class OtherUsersProfilePostView extends StatelessWidget {
           ),
         ),
         body: PhotoView(imageProvider: NetworkImage(image)));
-  }
-}
-
-class FollowListWidget extends StatelessWidget {
-  FollowListWidget({super.key, required this.head, required this.followList});
-  final postCntrl = Get.put(PostController());
-  String head;
-  List followList = [];
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        title: Text(
-          head,
-          style: normalTextStyleBlack,
-        ),
-      ),
-      body: ListView.builder(
-        itemCount: followList.length,
-        itemBuilder: (context, index) {
-          var user = followList[index];
-          var profile = '';
-          var username = '';
-          var uid = '';
-          for (var element in postCntrl.allUserDetiles) {
-            if (element['uid'] == user) {
-              profile = element['profilePic'];
-              username = element['username'];
-              uid = element['uid'];
-            }
-          }
-          return Card(
-            child: ListTile(
-              leading: CircleAvatar(
-                backgroundImage:
-                    NetworkImage(profile == '' ? nonUserNonProfile : profile),
-              ),
-              title: Text(
-                username,
-                style: normalTextStyleBlack,
-              ),
-            ),
-          );
-        },
-      ),
-    );
   }
 }

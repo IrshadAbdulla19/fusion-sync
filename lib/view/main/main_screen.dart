@@ -15,7 +15,7 @@ import 'package:fusion_sync/view/search/search_screen.dart';
 import 'package:get/get.dart';
 
 class MainScreen extends StatefulWidget {
-  MainScreen({super.key});
+  const MainScreen({super.key});
 
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -23,13 +23,10 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   final postCntrl = Get.put(PostController());
-
+  final stryCntl = Get.put(StorieController());
   final profileCntrl = Get.put(ProfileController());
-
   final navCntrl = Get.put(NavController());
-
   final notiCntl = Get.put(NotificationController());
-
   var pages = [
     HomeScreen(),
     SearchScreen(),
@@ -53,6 +50,7 @@ class _MainScreenState extends State<MainScreen> {
     postCntrl.allUsersGet();
     profileCntrl.userDetiles();
     postCntrl.thisUserDetiles();
+    stryCntl.getAllStorieOfuser();
     notiCntl.getNotificationList();
     return Scaffold(
       body: Obx(

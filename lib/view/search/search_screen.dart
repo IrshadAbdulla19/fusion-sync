@@ -4,6 +4,9 @@ import 'package:fusion_sync/controller/search_controller.dart';
 import 'package:fusion_sync/model/ui_constants/constants.dart';
 import 'package:get/get.dart';
 
+import 'widgets/search_result.dart';
+import 'widgets/search_textfiled.dart';
+
 class SearchScreen extends StatelessWidget {
   SearchScreen({super.key});
   final searchCntrl = Get.put(SearchCntrl());
@@ -17,60 +20,10 @@ class SearchScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextFormField(
-                controller: searchCntrl.searchCntrl,
-                onChanged: (value) {
-                  searchCntrl.searchUserGet(value);
-                },
-                decoration: InputDecoration(
-                    prefixIcon: IconButton(
-                        onPressed: () {}, icon: const Icon(Icons.search)),
-                    suffixIcon: IconButton(
-                        onPressed: () {
-                          searchCntrl.searchList.clear();
-                          searchCntrl.searchCntrl.clear();
-                        },
-                        icon: const Icon(Icons.cancel)),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20))),
-              ),
-            ),
+            SearchTextFormFiled(searchCntrl: searchCntrl),
             Flexible(
-                child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Obx(
-                () => ListView.builder(
-                  physics: BouncingScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: searchCntrl.searchList.length,
-                  itemBuilder: (context, index) {
-                    var user = searchCntrl.searchList[index];
-                    String username = user['username'];
-                    String profile = user['profilePic'];
-                    String uid = user['uid'];
-                    return GestureDetector(
-                      onTap: () {
-                        profilCntrl.otherUserDetiles(uid);
-                      },
-                      child: Card(
-                        child: ListTile(
-                          leading: CircleAvatar(
-                            backgroundImage: NetworkImage(
-                                profile == '' ? nonUserNonProfile : profile),
-                          ),
-                          title: Text(
-                            username,
-                            style: normalTextStyleBlack,
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ))
+                child: SearchResultWidget(
+                    searchCntrl: searchCntrl, profilCntrl: profilCntrl))
           ],
         ),
       ),

@@ -16,10 +16,14 @@ class SearchCntrl extends GetxController {
     final currentUserId = auth.currentUser!.uid;
     QuerySnapshot<Map<String, dynamic>> getusers =
         await _firestroe.collection('user').get();
-    for (var element in getusers.docs) {
-      if (element['uid'] != currentUserId) {
-        alluser.add(element);
+    try {
+      for (var element in getusers.docs) {
+        if (element['uid'] != currentUserId) {
+          alluser.add(element);
+        }
       }
+    } catch (e) {
+      print("the erorr is $e");
     }
   }
 

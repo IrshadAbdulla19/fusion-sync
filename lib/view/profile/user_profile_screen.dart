@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:fusion_sync/controller/post_controller.dart';
-import 'package:fusion_sync/controller/profile_controller.dart';
 import 'package:fusion_sync/view/profile/widgets/app_bar.dart';
 import 'package:fusion_sync/view/profile/widgets/forth_section.dart';
 import 'package:fusion_sync/view/profile/widgets/post_top_widget.dart';

@@ -3,6 +3,7 @@ import 'package:fusion_sync/controller/post_controller.dart';
 import 'package:fusion_sync/controller/profile_controller.dart';
 import 'package:fusion_sync/model/ui_constants/constants.dart';
 import 'package:fusion_sync/view/profile/widgets/counts_in_profil.dart';
+import 'package:fusion_sync/view/widgets/follow_list.dart';
 import 'package:fusion_sync/view/widgets/other_user_profile/other_user_profile.dart';
 import 'package:get/get.dart';
 

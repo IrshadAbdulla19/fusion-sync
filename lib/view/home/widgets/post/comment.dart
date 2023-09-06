@@ -44,6 +44,7 @@ class CommentScreen extends StatelessWidget {
                       postCntrl.dateTimeFormatChange(user['time'].toDate());
                   var comment = user['comment'];
                   var commentId = user['commentId'];
+                  var postUserId = user['PostUserId'];
                   for (var element in postCntrl.allUserDetiles) {
                     if (user['commentedUSerId'] == element['uid']) {
                       username = element['username'];
@@ -75,7 +76,7 @@ class CommentScreen extends StatelessWidget {
                                 ? IconButton(
                                     onPressed: () {
                                       postCntrl.deletePostComment(
-                                          postId, commentId);
+                                          postId, postUserId, commentId);
                                       postCntrl.postCommentDetiles(
                                           postUserId, postId);
                                     },

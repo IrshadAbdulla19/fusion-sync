@@ -16,7 +16,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   FirebaseAuth auth = FirebaseAuth.instance;
   final postCntrl = Get.put(PostController());
-  final stryCntl = Get.put(StorieController());
+
   @override
   void initState() {
     super.initState();
@@ -60,7 +60,7 @@ class _SplashScreenState extends State<SplashScreen> {
       auth.currentUser!.reload();
       if (auth.currentUser!.emailVerified) {
         postCntrl.thisUserDetiles();
-        stryCntl.getAllStorieOfuser();
+
         // ignore: use_build_context_synchronously
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) {

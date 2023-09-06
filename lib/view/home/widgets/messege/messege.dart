@@ -39,7 +39,7 @@ class MessegeScreen extends StatelessWidget {
       ),
       body: StreamBuilder(
           stream: msgCntrl.getUsersChatList
-              .doc(msgCntrl.auth.currentUser?.uid)
+              .doc(msgCntrl.auth.currentUser!.uid)
               .snapshots(),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
@@ -54,24 +54,34 @@ class MessegeScreen extends StatelessWidget {
                 style: normalTextStyleBlack,
               );
             }
-            List list = snapshot.data!['ChatList'] as List;
+            List list = [];
+            try {
+              list = snapshot.data!['ChatList'] as List;
+            } catch (e) {
+              print(
+                  "the erorr for the list is >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>$e");
+            }
             return ListView.builder(
               itemCount: list.length,
               itemBuilder: (context, index) {
-                var uid = list[index];
                 var username = '';
                 var profilePic = '';
                 var fcmToken = '';
-                for (var element in msgCntrl.allUserDetiles) {
-                  if (uid == element['uid']) {
-                    username = element['username'];
-                    profilePic = element['profilePic'];
-                    try {
-                      fcmToken = element['fcmToken'];
-                    } catch (e) {
-                      fcmToken = '';
+                var uid = list[index];
+                try {
+                  for (var element in msgCntrl.allUserDetiles) {
+                    if (uid == element['uid']) {
+                      username = element['username'];
+                      profilePic = element['profilePic'];
+                      try {
+                        fcmToken = element['fcmToken'];
+                      } catch (e) {
+                        fcmToken = '';
+                      }
                     }
                   }
+                } catch (e) {
+                  print("the erorr catch is >>>>>>>>>>>>>>>>>>>>$e");
                 }
                 return GestureDetector(
                   onTap: () => Get.to(() => MessegeInbox(

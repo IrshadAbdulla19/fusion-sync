@@ -206,6 +206,7 @@ class PostController extends GetxController {
           .doc(id)
           .set({
         'commentId': id,
+        'PostUserId': postUserId,
         'commentedUSerId': thisUserId,
         'comment': commentCntrl.text,
         'time': DateTime.now()
@@ -268,11 +269,11 @@ class PostController extends GetxController {
   }
 // -------------------------comment delete--------------------------------------
 
-  deletePostComment(String postId, commentId) async {
+  deletePostComment(String postId, postUserId, commentId) async {
     try {
       await FirebaseFirestore.instance
           .collection('userPosts')
-          .doc(auth.currentUser?.uid)
+          .doc(postUserId)
           .collection('thisUser')
           .doc(postId)
           .collection('comments')

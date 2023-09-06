@@ -27,15 +27,22 @@ class NotificationScreen extends StatelessWidget {
               itemBuilder: (context, index) {
                 var profile = '';
                 var username = '';
-                var notification = notiCntrl.notificationList[index];
-                var content = notification['content'];
-                var time = notiCntrl
-                    .dateTimeFormatChange(notification['time'].toDate());
-                for (var element in postCntrl.allUserDetiles) {
-                  if (element['uid'] == notification['otherUserId']) {
-                    username = element['username'];
-                    profile = element['profilePic'];
+                var content = '';
+                var time = '';
+                try {
+                  var notification = notiCntrl.notificationList[index];
+                  content = notification['content'];
+                  time = notiCntrl
+                      .dateTimeFormatChange(notification['time'].toDate());
+                  for (var element in postCntrl.allUserDetiles) {
+                    if (element['uid'] == notification['otherUserId']) {
+                      username = element['username'];
+                      profile = element['profilePic'];
+                    }
                   }
+                } catch (e) {
+                  print(
+                      "the erorr in this notification is >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>$e");
                 }
                 return NotificationItem(
                   profile: profile,
