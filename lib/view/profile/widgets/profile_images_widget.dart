@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fusion_sync/controller/post_controller.dart';
 import 'package:fusion_sync/controller/profile_controller.dart';
 import 'package:fusion_sync/model/ui_constants/constants.dart';
+import 'package:fusion_sync/view/widgets/image_view.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -36,8 +37,8 @@ class ProfileImagesWidget extends StatelessWidget {
                               ? BoxDecoration(
                                   color: kBlackColor,
                                   image: const DecorationImage(
-                                      image: AssetImage(
-                                        "asset/images/cover blank.jpg",
+                                      image: NetworkImage(
+                                        noImage,
                                       ),
                                       fit: BoxFit.fill))
                               : BoxDecoration(
@@ -63,13 +64,21 @@ class ProfileImagesWidget extends StatelessWidget {
                     .snapshots(),
                 builder: (context, AsyncSnapshot snapshot) {
                   return snapshot.hasData
-                      ? CircleAvatar(
-                          backgroundImage: snapshot.data['profilePic'] == ''
-                              ? const AssetImage(
-                                  "asset/images/profile blank.webp")
-                              : NetworkImage(snapshot.data['profilePic'])
-                                  as ImageProvider,
-                          radius: size.width * 0.23,
+                      ? InkWell(
+                          onTap: () {
+                            if (snapshot.data['profilePic'] != '') {
+                              Get.to(() => PhotoViewScreen(
+                                  image: snapshot.data['profilePic']));
+                            }
+                          },
+                          child: CircleAvatar(
+                            backgroundImage: snapshot.data['profilePic'] == ''
+                                ? const AssetImage(
+                                    "asset/images/profile blank.webp")
+                                : NetworkImage(snapshot.data['profilePic'])
+                                    as ImageProvider,
+                            radius: size.width * 0.23,
+                          ),
                         )
                       : CircleAvatar(
                           radius: size.width * 0.23,

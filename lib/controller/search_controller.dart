@@ -7,19 +7,21 @@ class SearchCntrl extends GetxController {
   final FirebaseFirestore _firestroe = FirebaseFirestore.instance;
   final FirebaseAuth auth = FirebaseAuth.instance;
   TextEditingController searchCntrl = TextEditingController();
+  RxString searchString = ''.obs;
   RxList searchList = [].obs;
-  List alluser = [];
+  RxList alluser = [].obs;
 
   getAllUsers() async {
     searchList.clear();
-    alluser.clear();
+    alluser.value.clear();
     final currentUserId = auth.currentUser!.uid;
     QuerySnapshot<Map<String, dynamic>> getusers =
         await _firestroe.collection('user').get();
     try {
       for (var element in getusers.docs) {
         if (element['uid'] != currentUserId) {
-          alluser.add(element);
+          alluser.value.add(element);
+          alluser.refresh();
         }
       }
     } catch (e) {
@@ -28,7 +30,7 @@ class SearchCntrl extends GetxController {
   }
 
   searchUserGet(String name) async {
-    searchList.value = alluser
+    searchList.value = alluser.value
         .where((element) => element['username']
             .toString()
             .toLowerCase()

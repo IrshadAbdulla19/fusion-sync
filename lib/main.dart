@@ -26,10 +26,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      theme: ThemeData(
-          primaryColor: Colors.black,
-          primarySwatch: primaryBlack,
-          fontFamily: "Changa"),
+      theme: themeCntrl.themeData,
       debugShowCheckedModeBanner: false,
       home: const SplashScreen(),
     );

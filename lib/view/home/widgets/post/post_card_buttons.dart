@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fusion_sync/controller/post_controller.dart';
@@ -5,6 +7,9 @@ import 'package:fusion_sync/model/ui_constants/constants.dart';
 import 'package:fusion_sync/view/home/widgets/post/comment.dart';
 import 'package:fusion_sync/view/home/widgets/post/liked_users.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
+import 'package:share_plus/share_plus.dart';
 
 class PostCardLikeBottomItems extends StatelessWidget {
   PostCardLikeBottomItems({
@@ -81,14 +86,32 @@ class PostCardCommentBottomItems extends StatelessWidget {
 }
 
 class PostCardBottomItems extends StatelessWidget {
-  PostCardBottomItems({super.key, required this.icon, required this.text});
+  PostCardBottomItems(
+      {super.key,
+      required this.icon,
+      required this.text,
+      required this.photoUrl});
   IconData icon;
   String text;
+  String photoUrl;
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        IconButton(onPressed: () {}, icon: Icon(icon)),
+        IconButton(
+            onPressed: () async {
+              final imgUrl = photoUrl;
+              final url = Uri.parse(imgUrl);
+              final response = await http.get(url);
+              final byte = response.bodyBytes;
+              final temp = await getTemporaryDirectory();
+              final path = '${temp.path}/image.jpg';
+              print(path);
+              File(path).writeAsBytesSync(byte);
+              await Share.shareFiles([path],
+                  text: 'Image', subject: 'something to share');
+            },
+            icon: Icon(icon)),
         Text(
           text,
           style: normalTextStyleBlack,

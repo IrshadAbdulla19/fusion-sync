@@ -5,15 +5,16 @@ import 'package:fusion_sync/view/home/widgets/post/post_card_buttons.dart';
 import 'package:get/get.dart';
 
 class PostWidgetBottomPart extends StatelessWidget {
-  PostWidgetBottomPart({
-    super.key,
-    required this.likes,
-    required this.postId,
-    required this.postUserId,
-  });
+  PostWidgetBottomPart(
+      {super.key,
+      required this.likes,
+      required this.postId,
+      required this.postUserId,
+      required this.photoUrl});
   String postId;
   String postUserId;
   List likes;
+  String photoUrl;
   final postCntrl = Get.put(PostController());
 
   @override
@@ -39,6 +40,7 @@ class PostWidgetBottomPart extends StatelessWidget {
         ),
         PostCardBottomItems(
           icon: Icons.send,
+          photoUrl: photoUrl,
           text: "Share",
         ),
       ],

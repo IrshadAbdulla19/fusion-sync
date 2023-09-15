@@ -23,6 +23,22 @@ class StorieController extends GetxController {
   var loadPost = false.obs;
   var imgFile = ''.obs;
   String? img;
+
+  // ------------------------------this user storie detiles---------------------
+  RxList thisUserStorieList = [].obs;
+  getthisUserDetiles() async {
+    thisUserStorieList.value.clear();
+    QuerySnapshot<Map<String, dynamic>> userGet =
+        await _firestore.collection('stories').get();
+    for (var element in userGet.docs) {
+      if (element['StorieUserId'] == auth.currentUser!.uid) {
+        thisUserStorieList.value.add(element);
+        thisUserStorieList.refresh();
+        break;
+      }
+    }
+  }
+
 // -------------------------------Storie list-----------------------------------
 
   RxList storieList = [].obs;
@@ -54,15 +70,28 @@ class StorieController extends GetxController {
       imgFile.value = '';
       Get.back();
       navCntrl.index.value = 0;
-      deleteTimer = Timer(const Duration(seconds: 24 * 60 * 60), () async {
-        await _firestore.collection("stories").doc(userId).delete();
-        await getAllStorieOfuser();
-        deleteTimer?.cancel();
-        print('Document deleted after 24 hours.');
-      });
+      await getAllStorieOfuser();
+      await getthisUserDetiles();
+      // deleteTimer = Timer(const Duration(seconds: 24 * 60 * 60), () async {
+      //   await _firestore.collection("stories").doc(userId).delete();
+      //   await getAllStorieOfuser();
+      //   deleteTimer?.cancel();
+      //   print('Document deleted after 24 hours.');
+      // });
     } catch (e) {
       loadPost.value = false;
       Get.snackbar("Erorr", "storie posting error $e");
+    }
+  }
+  // ------------------------------storie delete -------------------------------
+
+  deleteFuntion(String userId) async {
+    try {
+      await _firestore.collection("stories").doc(userId).delete();
+      getthisUserDetiles();
+      Get.back();
+    } catch (e) {
+      print("erorr$e");
     }
   }
 
@@ -76,7 +105,10 @@ class StorieController extends GetxController {
       final duration = now - time.millisecondsSinceEpoch;
       // 86400000
       if (duration > 86400000) {
-        _firestore.collection("stories").doc(element['userid']).delete();
+        await _firestore
+            .collection("stories")
+            .doc(element['StorieUserId'])
+            .delete();
       }
     }
   }

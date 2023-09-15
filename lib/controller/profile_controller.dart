@@ -34,8 +34,25 @@ class ProfileController extends GetxController {
 
 // ----------------for get current app users profile detiles--------------------
 
+  RxList<DocumentSnapshot> allUserDetiles = <DocumentSnapshot>[].obs;
+
+  alluserDetiles() async {
+    try {
+      QuerySnapshot getusers =
+          await FirebaseFirestore.instance.collection('user').get();
+      allUserDetiles.value = getusers.docs;
+      allUserDetiles.refresh();
+    } catch (e) {
+      print('error $e');
+    }
+  }
+
   userDetiles() async {
     try {
+      QuerySnapshot getusers =
+          await FirebaseFirestore.instance.collection('user').get();
+      allUserDetiles.value = getusers.docs;
+      allUserDetiles.refresh();
       DocumentSnapshot<Map<String, dynamic>> user =
           await getInstance.doc(auth.currentUser?.uid).get();
       Map<String, dynamic> userData;
@@ -81,7 +98,9 @@ class ProfileController extends GetxController {
           follwing.value = await userData['Following'];
           followers.value = await userData['Followers'];
 
-          Get.to(() => OtherUserProfile());
+          Get.to(() => OtherUserProfile(),
+              transition: Transition.zoom,
+              duration: Duration(milliseconds: 300));
         } else {}
       } catch (e) {
         print('error $e');

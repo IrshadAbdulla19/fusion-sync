@@ -15,31 +15,32 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Padding(
-      padding: const EdgeInsets.only(left: 3.0),
-      child: Scaffold(
-          appBar: PreferredSize(
-            preferredSize: Size.fromHeight(size.height * 0.08),
+    return Scaffold(
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(size.height * 0.08),
+          child: Padding(
+            padding: const EdgeInsets.only(left: 5.0),
             child: HomeAppBar(size: size),
           ),
-          body: RefreshIndicator(
-            child: SingleChildScrollView(
-              physics: AlwaysScrollableScrollPhysics(),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Flexible(child: StoriePart(size: size)),
-                  Flexible(child: ListOfPosts(size: size))
-                ],
-              ),
+        ),
+        body: RefreshIndicator(
+          child: SingleChildScrollView(
+            physics: AlwaysScrollableScrollPhysics(),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Flexible(child: StoriePart(size: size)),
+                Flexible(child: ListOfPosts(size: size))
+              ],
             ),
-            onRefresh: () async {
-              postCntrl.allUsresPostDetiles();
-              postCntrl.thisUserDetiles();
-              stryCntrl.getAllStorieOfuser();
-            },
-          )),
-    );
+          ),
+          onRefresh: () async {
+            postCntrl.allUsresPostDetiles();
+            postCntrl.thisUserDetiles();
+            stryCntrl.getAllStorieOfuser();
+            stryCntrl.autodeletStory();
+          },
+        ));
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fusion_sync/controller/search_controller.dart';
+import 'package:get/get_core/get_core.dart';
 
 class SearchTextFormFiled extends StatelessWidget {
   const SearchTextFormFiled({
@@ -16,6 +17,8 @@ class SearchTextFormFiled extends StatelessWidget {
       child: TextFormField(
         controller: searchCntrl.searchCntrl,
         onChanged: (value) {
+          searchCntrl.searchString.value = value;
+
           searchCntrl.searchUserGet(value);
         },
         decoration: InputDecoration(
@@ -23,7 +26,6 @@ class SearchTextFormFiled extends StatelessWidget {
                 IconButton(onPressed: () {}, icon: const Icon(Icons.search)),
             suffixIcon: IconButton(
                 onPressed: () {
-                  searchCntrl.searchList.clear();
                   searchCntrl.searchCntrl.clear();
                 },
                 icon: const Icon(Icons.cancel)),

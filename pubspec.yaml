@@ -37,12 +37,16 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_local_notifications: ^15.1.1
+  flutter_markdown: ^0.6.17+3
   get: ^4.6.5
   google_sign_in: ^6.1.4
   http: ^1.1.0
   image_picker: ^1.0.1
   intl: ^0.18.1
+  path_provider: ^2.1.1
   photo_view: ^0.14.0
+  share_plus: ^7.1.0
+  shared_preferences: ^2.2.1
   timeago: ^3.5.0
   toggle_switch: ^2.1.0
   uuid: ^3.0.7
@@ -66,15 +70,11 @@ flutter:
   assets:
     - asset/images/Vector 1.png
     - asset/images/Union.png
-    - asset/images/user profile.webp
-    - asset/images/post.jpeg
-    - asset/images/post 8.webp
-    - asset/images/post 7.jpg
-    - asset/images/post 5.jpeg
-    - asset/images/post 6.jpeg
     - asset/images/google logo.png
-    - asset/images/profile blank.webp
     - asset/images/cover blank.jpg
+    - asset/images/Fusion Sync App Logo.png
+    - asset/privacy_and_terms/privacy_policy.md
+    - asset/privacy_and_terms/terms_and_contitions.md
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

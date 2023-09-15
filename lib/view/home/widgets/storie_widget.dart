@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fusion_sync/controller/profile_controller.dart';
 import 'package:fusion_sync/controller/storie_controller.dart';
@@ -28,13 +29,38 @@ class StoriePart extends StatelessWidget {
               child: Stack(
                 children: [
                   Obx(
-                    () => CircleAvatar(
-                      backgroundImage: NetworkImage(
-                          prflCntrl.profile.value == ""
-                              ? nonUserNonProfile
-                              : prflCntrl.profile.value),
-                      backgroundColor: kBlackColor,
-                      radius: size.width * 0.083,
+                    () => InkWell(
+                      onTap: () {
+                        if (stryCntrl.thisUserStorieList.isNotEmpty) {
+                          var profile = '';
+                          var username = '';
+                          var storie = stryCntrl.thisUserStorieList[0];
+                          var image = storie['ImageUrl'];
+                          var storieUserid = storie['StorieUserId'];
+                          for (var element in prflCntrl.allUserDetiles) {
+                            if (element['uid'] == storieUserid) {
+                              profile = element['profilePic'];
+                              username = element['username'];
+                            }
+                          }
+                          Get.to(
+                              () => StorieView(
+                                    uid: storieUserid,
+                                    image: image,
+                                    profile: profile,
+                                    username: username,
+                                  ),
+                              transition: Transition.zoom);
+                        }
+                      },
+                      child: CircleAvatar(
+                        backgroundImage: NetworkImage(
+                            prflCntrl.profile.value == ""
+                                ? nonUserNonProfile
+                                : prflCntrl.profile.value),
+                        backgroundColor: kBlackColor,
+                        radius: size.width * 0.083,
+                      ),
                     ),
                   ),
                   Positioned(
@@ -45,7 +71,8 @@ class StoriePart extends StatelessWidget {
                       child: IconButton(
                           iconSize: size.width * 0.04,
                           onPressed: () {
-                            Get.to(() => AddStorieScreen());
+                            Get.to(() => AddStorieScreen(),
+                                transition: Transition.zoom);
                           },
                           color: kWhiteColor,
                           icon: Icon(Icons.add)),
@@ -59,16 +86,29 @@ class StoriePart extends StatelessWidget {
                 () => ListView.builder(
                     scrollDirection: Axis.horizontal,
                     // shrinkWrap: false,
-                    // physics: NeverScrollableScrollPhysics(),
+                    physics: BouncingScrollPhysics(),
                     itemCount: stryCntrl.storieList.length,
                     itemBuilder: (context, index) {
+                      var profile = '';
+                      var username = '';
                       var storie = stryCntrl.storieList[index];
                       var image = storie['ImageUrl'];
                       var storieUserid = storie['StorieUserId'];
+                      for (var element in prflCntrl.allUserDetiles) {
+                        if (element['uid'] == storieUserid) {
+                          profile = element['profilePic'];
+                          username = element['username'];
+                        }
+                      }
                       return InkWell(
-                        onTap: () => Get.to(() => StorieView(
-                              image: image,
-                            )),
+                        onTap: () => Get.to(
+                            () => StorieView(
+                                  uid: storieUserid,
+                                  image: image,
+                                  profile: profile,
+                                  username: username,
+                                ),
+                            transition: Transition.zoom),
                         child: CircleAvatar(
                           backgroundImage: NetworkImage(image),
                           backgroundColor: kBlackColor,
@@ -84,14 +124,23 @@ class StoriePart extends StatelessWidget {
 }
 
 class StorieView extends StatefulWidget {
-  StorieView({super.key, required this.image});
+  StorieView(
+      {super.key,
+      required this.image,
+      required this.profile,
+      required this.username,
+      required this.uid});
   String image;
-
+  String profile;
+  String username;
+  String uid;
   @override
   State<StorieView> createState() => _StorieViewState();
 }
 
 class _StorieViewState extends State<StorieView> {
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  final stryCntrl = Get.put(StorieController());
   double precent = 0.0;
   late Timer _timer;
 
@@ -116,6 +165,7 @@ class _StorieViewState extends State<StorieView> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: SafeArea(
         child: Stack(
@@ -124,6 +174,15 @@ class _StorieViewState extends State<StorieView> {
               width: double.infinity,
               height: double.infinity,
               color: kBlackColor,
+            ),
+            Positioned(
+              top: size.height * 0.02,
+              left: size.width * 0.02,
+              child: CircleAvatar(
+                radius: size.width * 0.08,
+                backgroundImage: NetworkImage(
+                    widget.profile == '' ? nonUserNonProfile : widget.profile),
+              ),
             ),
             Container(
               width: double.infinity,
@@ -134,7 +193,27 @@ class _StorieViewState extends State<StorieView> {
             LinearProgressIndicator(
               value: precent,
               backgroundColor: kWhiteColor,
-            )
+            ),
+            Positioned(
+              top: size.height * 0.02,
+              right: size.width * 0.02,
+              child: widget.uid == stryCntrl.auth.currentUser?.uid
+                  ? IconButton(
+                      onPressed: () {
+                        print(
+                            "this is funstion called>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+                        stryCntrl
+                            .deleteFuntion(stryCntrl.auth.currentUser!.uid);
+                        print(
+                            "this is funstion called>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+                      },
+                      iconSize: size.width * 0.08,
+                      color: kWhiteColor,
+                      icon: const Icon(Icons.delete))
+                  : const SizedBox(
+                      height: 1,
+                    ),
+            ),
           ],
         ),
       ),
@@ -155,8 +234,12 @@ class AddStorieScreen extends StatelessWidget {
         appBar: AppBar(
           leading: IconButton(
               onPressed: () {
-                stryCntrl.imgFile.value = '';
-                stryCntrl.photoUrl = '';
+                if (stryCntrl.imgFile.value != '' && stryCntrl.photoUrl != '') {
+                  stryCntrl.imgFile.value = '';
+                  stryCntrl.photoUrl = '';
+                } else {
+                  Get.back();
+                }
               },
               color: kBlackColor,
               iconSize: size.height * 0.05,

@@ -286,6 +286,59 @@ class PostController extends GetxController {
     }
   }
 
+  // -------------------------save post-----------------------------------------
+  RxList savedList = [].obs;
+  savePost(String postUserId, postId, image) async {
+    savedList.value.clear();
+    QuerySnapshot<Map<String, dynamic>> saved = await firestore
+        .collection('save_posts')
+        .doc(auth.currentUser?.uid)
+        .collection("save photos colloction")
+        .get();
+    savePostList.value = saved.docs;
+    if (savePostList.value.contains(postId)) {
+      try {
+        print(">>>>>>>>>>>>>>>>>>>>>>>>>>delete>>>>>>>>>>>>>>>>>>>>>>>>");
+        await firestore
+            .collection('save_posts')
+            .doc(auth.currentUser?.uid)
+            .collection("save photos colloction")
+            .doc(postId)
+            .delete();
+      } catch (e) {
+        print("the erorr in deleteing the saved post>>>>>>>>>>>>>>>>$e");
+      }
+    } else {
+      try {
+        print(">>>>>>>>>>>>>>>>>>>>>>>>>>Saved>>>>>>>>>>>>>>>>>>>>>>>>");
+        await firestore
+            .collection('save_posts')
+            .doc(auth.currentUser?.uid)
+            .collection('save photos colloction')
+            .doc(postId)
+            .set({
+          "post userId": postUserId,
+          "postId": postId,
+          "photoUrl": image
+        });
+      } catch (e) {
+        print("the erorr in saving the saved post>>>>>>>>>>>>>>>>$e");
+      }
+    }
+  }
+
+  // ------------------------save post list-------------------------------------
+  RxList savePostList = [].obs;
+  getSaveList() async {
+    final saved = await firestore
+        .collection('save_posts')
+        .doc(auth.currentUser?.uid)
+        .collection("save photos colloction")
+        .get();
+
+    savePostList.value = saved.docs;
+  }
+
 // ------------------------for image saving-------------------------------------
   saveImgToFireBase() async {
     if (_imgage != null) {

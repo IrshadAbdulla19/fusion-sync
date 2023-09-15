@@ -51,6 +51,8 @@ class _MainScreenState extends State<MainScreen> {
     profileCntrl.userDetiles();
     postCntrl.thisUserDetiles();
     stryCntl.getAllStorieOfuser();
+    stryCntl.getthisUserDetiles();
+    stryCntl.autodeletStory();
     notiCntl.getNotificationList();
     return Scaffold(
       body: Obx(

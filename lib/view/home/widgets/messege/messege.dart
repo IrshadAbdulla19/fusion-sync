@@ -201,6 +201,8 @@ class MessegeInbox extends StatelessWidget {
   String username;
   String fcmToken;
   String profilePic = '';
+  String thisDate = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -257,12 +259,14 @@ class MessegeInbox extends StatelessWidget {
                           border: InputBorder.none,
                           suffixIcon: IconButton(
                               onPressed: () async {
-                                await messageCntrl.sendMessage(recevierUid);
-                                LocalNotificationService.sendNotification(
-                                    title: "New message",
-                                    message: messageCntrl.messageCntrl.text,
-                                    token: fcmToken);
-                                messageCntrl.messageCntrl.clear();
+                                if (messageCntrl.messageCntrl.text != '') {
+                                  await messageCntrl.sendMessage(recevierUid);
+                                  LocalNotificationService.sendNotification(
+                                      title: "New message",
+                                      message: messageCntrl.messageCntrl.text,
+                                      token: fcmToken);
+                                  messageCntrl.messageCntrl.clear();
+                                }
                               },
                               icon: const Icon(Icons.send))),
                     ),
@@ -296,6 +300,7 @@ class MessegeInbox extends StatelessWidget {
         return Padding(
           padding: const EdgeInsets.all(8.0),
           child: ListView(
+            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
             children: snapshot.data!.docs
                 .map((document) => _buildMessageItem(document))
                 .toList(),
@@ -317,33 +322,45 @@ class MessegeInbox extends StatelessWidget {
         ? normalTextStyleWhite
         : normalTextStyleBlack;
     var format = DateFormat.jm().format(data['Time'].toDate());
-    return Container(
-      margin: const EdgeInsets.all(2),
-      alignment: alignment,
-      child: Card(
-        child: Column(children: [
-          Container(
-            decoration: BoxDecoration(
-                color: color, borderRadius: BorderRadius.circular(10)),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(
-                    data['Messege'],
-                    style: txtStyle.copyWith(fontSize: 18),
+    String date = DateFormat.yMMMMd('en_US').format(data['Time'].toDate());
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Container(
+          child: date != thisDate
+              ? Text(thisDate = date)
+              : const SizedBox(
+                  height: 1,
+                ),
+        ),
+        Container(
+          alignment: alignment,
+          child: Card(
+            child: Column(children: [
+              Container(
+                decoration: BoxDecoration(
+                    color: color, borderRadius: BorderRadius.circular(10)),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(
+                        data['Messege'],
+                        style: txtStyle.copyWith(fontSize: 18),
+                      ),
+                      Text(
+                        format,
+                        style: txtStyle.copyWith(fontSize: 12),
+                      ),
+                    ],
                   ),
-                  Text(
-                    format,
-                    style: txtStyle.copyWith(fontSize: 12),
-                  ),
-                ],
-              ),
-            ),
-          )
-        ]),
-      ),
+                ),
+              )
+            ]),
+          ),
+        ),
+      ],
     );
   }
 }

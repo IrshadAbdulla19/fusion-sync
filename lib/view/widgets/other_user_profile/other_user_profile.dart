@@ -5,6 +5,7 @@ import 'package:fusion_sync/model/ui_constants/constants.dart';
 import 'package:fusion_sync/view/profile/widgets/counts_in_profil.dart';
 import 'package:fusion_sync/view/profile/widgets/profile_post_widget.dart';
 import 'package:fusion_sync/view/widgets/follow_list.dart';
+import 'package:fusion_sync/view/widgets/image_view.dart';
 import 'package:get/get.dart';
 import 'package:photo_view/photo_view.dart';
 
@@ -73,18 +74,26 @@ class OthersProfileImagesWidget extends StatelessWidget {
                       image: DecorationImage(
                           image: NetworkImage(
                             profileCntrl.otherUserCover.value == ''
-                                ? nonUserNonProfile
+                                ? noImage
                                 : profileCntrl.otherUserCover.value,
                           ),
                           fit: BoxFit.cover)))),
           Align(
               alignment: Alignment.bottomCenter,
-              child: CircleAvatar(
-                backgroundImage: NetworkImage(
-                    profileCntrl.otherUserProfile.value == ''
-                        ? nonUserNonProfile
-                        : profileCntrl.otherUserProfile.value),
-                radius: size.width * 0.23,
+              child: InkWell(
+                onTap: () {
+                  if (profileCntrl.otherUserProfile.value != '') {
+                    Get.to(() => PhotoViewScreen(
+                        image: profileCntrl.otherUserProfile.value));
+                  }
+                },
+                child: CircleAvatar(
+                  backgroundImage: NetworkImage(
+                      profileCntrl.otherUserProfile.value == ''
+                          ? nonUserNonProfile
+                          : profileCntrl.otherUserProfile.value),
+                  radius: size.width * 0.23,
+                ),
               )),
         ],
       ),
