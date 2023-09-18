@@ -290,25 +290,34 @@ class PostController extends GetxController {
   RxList savedList = [].obs;
   savePost(String postUserId, postId, image) async {
     savedList.value.clear();
+    bool isSave = false;
     QuerySnapshot<Map<String, dynamic>> saved = await firestore
         .collection('save_posts')
         .doc(auth.currentUser?.uid)
         .collection("save photos colloction")
         .get();
     savePostList.value = saved.docs;
-    if (savePostList.value.contains(postId)) {
-      try {
-        print(">>>>>>>>>>>>>>>>>>>>>>>>>>delete>>>>>>>>>>>>>>>>>>>>>>>>");
-        await firestore
-            .collection('save_posts')
-            .doc(auth.currentUser?.uid)
-            .collection("save photos colloction")
-            .doc(postId)
-            .delete();
-      } catch (e) {
-        print("the erorr in deleteing the saved post>>>>>>>>>>>>>>>>$e");
+    savePostList.refresh();
+    print(
+        ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> the length of the save post >>>>>>${savePostList.length}");
+    for (var element in saved.docs) {
+      if (element['postId'] == postId) {
+        isSave = true;
+        try {
+          print(">>>>>>>>>>>>>>>>>>>>>>>>>>delete>>>>>>>>>>>>>>>>>>>>>>>>");
+          await firestore
+              .collection('save_posts')
+              .doc(auth.currentUser?.uid)
+              .collection("save photos colloction")
+              .doc(postId)
+              .delete();
+        } catch (e) {
+          print("the erorr in deleteing the saved post>>>>>>>>>>>>>>>>$e");
+        }
+        break;
       }
-    } else {
+    }
+    if (isSave == false) {
       try {
         print(">>>>>>>>>>>>>>>>>>>>>>>>>>Saved>>>>>>>>>>>>>>>>>>>>>>>>");
         await firestore
@@ -324,6 +333,22 @@ class PostController extends GetxController {
       } catch (e) {
         print("the erorr in saving the saved post>>>>>>>>>>>>>>>>$e");
       }
+    }
+  }
+// ----------------------------------delete saved post--------------------------
+
+  deletSavePost(String postId) async {
+    try {
+      print(">>>>>>>>>>>>>>>>>>>>>>>>>>delete>>>>>>>>>>>>>>>>>>>>>>>>");
+      await firestore
+          .collection('save_posts')
+          .doc(auth.currentUser?.uid)
+          .collection("save photos colloction")
+          .doc(postId)
+          .delete();
+      getSaveList();
+    } catch (e) {
+      print("the erorr in deleteing the saved post>>>>>>>>>>>>>>>>$e");
     }
   }
 

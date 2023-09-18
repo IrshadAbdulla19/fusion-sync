@@ -10,6 +10,7 @@ class EditProfilScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         leading: IconButton(
             onPressed: () {
@@ -34,7 +35,7 @@ class EditProfilScreen extends StatelessWidget {
         ],
       ),
       body: SafeArea(
-          child: Column(
+          child: ListView(
         children: [
           StreamBuilder(
               stream: proCntrl.getInstance

@@ -128,7 +128,41 @@ class BottomSheetMenu extends StatelessWidget {
                 postCntrl.getSaveList();
                 Get.to(() => SavedPhotosScreen());
               } else if (text == "LogOut") {
-                cntrl.signOut();
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      title: Text(
+                        "LogOut",
+                        style: normalTextStyleBlack,
+                      ),
+                      content: Text(
+                        "Are sure to Logout",
+                        style: normalTextStyleBlack,
+                      ),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            cntrl.signOut();
+                          },
+                          child: Text(
+                            "Yes",
+                            style: normalTextStyleBlack,
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Get.back();
+                          },
+                          child: Text(
+                            "No",
+                            style: normalTextStyleBlack,
+                          ),
+                        )
+                      ],
+                    );
+                  },
+                );
               }
             },
             iconSize: size.width * 0.1,
