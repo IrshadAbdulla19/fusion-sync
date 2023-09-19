@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:fusion_sync/controller/post_controller.dart';
-import 'package:fusion_sync/model/ui_constants/constants.dart';
 import 'package:fusion_sync/view/add_post/widgets/Image_show_part.dart';
 import 'package:fusion_sync/view/add_post/widgets/app_bar.dart';
 import 'package:fusion_sync/view/widgets/for_textfileds.dart';

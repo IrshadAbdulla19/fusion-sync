@@ -19,6 +19,8 @@ class StoriePart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    stryCntrl.getAllStorieOfuser();
+    stryCntrl.getthisUserDetiles();
     return SizedBox(
         height: size.height * 0.07,
         child: Row(

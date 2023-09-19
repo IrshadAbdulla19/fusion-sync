@@ -57,8 +57,15 @@ class ProfilePostView extends StatelessWidget {
   String description;
   String postId;
   final postCntrl = Get.put(PostController());
+  var isExpanded = false.obs;
+
+  void _toggleExpansion() {
+    isExpanded.value = !isExpanded.value;
+  }
+
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
         appBar: AppBar(
           leading: IconButton(
@@ -66,10 +73,6 @@ class ProfilePostView extends StatelessWidget {
                 Get.back();
               },
               icon: const Icon(Icons.arrow_back)),
-          title: Text(
-            description,
-            style: normalTextStyleWhite,
-          ),
           actions: [
             PopupMenuButton(
               itemBuilder: (context) {
@@ -99,8 +102,34 @@ class ProfilePostView extends StatelessWidget {
             )
           ],
         ),
-        body: Container(
-          child: PhotoView(imageProvider: NetworkImage(image)),
+        body: Stack(
+          children: [
+            PhotoView(imageProvider: NetworkImage(image)),
+            Align(
+              alignment: Alignment.bottomLeft,
+              child: Obx(
+                () => GestureDetector(
+                  onTap: _toggleExpansion,
+                  child: AnimatedContainer(
+                    color: Colors.black.withOpacity(0.5),
+                    duration: Duration(milliseconds: 300),
+                    width: double.infinity,
+                    height: isExpanded.value ? size.height * 0.5 : 100.0,
+                    alignment: Alignment.center,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: ListView(children: [
+                        Text(
+                          description,
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ]),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
         ));
   }
 }

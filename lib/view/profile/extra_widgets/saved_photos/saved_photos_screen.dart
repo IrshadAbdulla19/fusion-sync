@@ -11,12 +11,16 @@ class SavedPhotosScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
         title: Text(
           "Saved Photos",
-          style: normalTextStyleWhite,
+          style: normalTextStyleBlack,
         ),
-        leading:
-            IconButton(onPressed: () {}, icon: const Icon(Icons.arrow_back)),
+        leading: IconButton(
+            onPressed: () {},
+            color: kBlackColor,
+            icon: const Icon(Icons.arrow_back)),
       ),
       body: Obx(
         () => GridView.builder(

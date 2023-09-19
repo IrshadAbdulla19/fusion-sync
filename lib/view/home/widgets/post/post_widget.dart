@@ -110,9 +110,13 @@ class PostWidget extends StatelessWidget {
                   '@$username ',
                   style: miniText,
                 ),
-                Text(
-                  '   $description',
-                  style: miniTextHeads,
+                Expanded(
+                  child: Text('   $description',
+                      style: miniTextHeads,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      textDirection: TextDirection.ltr,
+                      textAlign: TextAlign.start),
                 ),
               ],
             ),

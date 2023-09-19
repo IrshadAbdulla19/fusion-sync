@@ -47,13 +47,14 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    postCntrl.allUsersGet();
-    profileCntrl.userDetiles();
-    postCntrl.thisUserDetiles();
-    stryCntl.getAllStorieOfuser();
-    stryCntl.getthisUserDetiles();
-    stryCntl.autodeletStory();
     notiCntl.getNotificationList();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      postCntrl.allUsresPostDetiles();
+      postCntrl.thisUserDetiles();
+      postCntrl.allUsersGet();
+      profileCntrl.userDetiles();
+      stryCntl.autodeletStory();
+    });
     return Scaffold(
       body: Obx(
         () => SafeArea(
