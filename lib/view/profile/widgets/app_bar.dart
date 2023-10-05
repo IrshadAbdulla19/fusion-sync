@@ -47,13 +47,18 @@ class ProfileAppBar extends StatelessWidget {
 
   Future bottomSheet() {
     return showModalBottomSheet(
+      backgroundColor: Colors.transparent,
+      elevation: 0,
       context: contxt,
       builder: (context) {
         return Container(
           width: double.infinity,
-          height: size.height * 0.3,
+          height: size.width * 0.7,
           decoration: BoxDecoration(
-              color: kWhiteColor, borderRadius: BorderRadius.circular(50)),
+              boxShadow: const [BoxShadow(blurRadius: 30)],
+              color: kWhiteColor,
+              borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(30), topRight: Radius.circular(30))),
           child: BottomSheetMenu(),
         );
       },

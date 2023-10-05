@@ -35,7 +35,18 @@ class PostWidget extends StatelessWidget {
   var isAnimating = false.obs;
   @override
   Widget build(BuildContext context) {
-    return Card(
+    return Container(
+      margin: EdgeInsets.symmetric(
+          vertical: size.width * 0.02, horizontal: size.width * 0.013),
+      decoration: BoxDecoration(
+          boxShadow: const [
+            BoxShadow(blurRadius: 5, blurStyle: BlurStyle.outer)
+          ],
+          borderRadius: BorderRadius.circular(20),
+          gradient: LinearGradient(colors: [
+            kBlackColor.withOpacity(0.2),
+            kBlackColor.withOpacity(0.2)
+          ])),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(

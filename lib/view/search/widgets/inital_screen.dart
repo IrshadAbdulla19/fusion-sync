@@ -62,10 +62,15 @@ class InitalStageItem extends StatelessWidget {
   final String cover;
   @override
   Widget build(BuildContext context) {
-    return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      shadowColor: Colors.black,
-      elevation: 2,
+    return Container(
+      margin: EdgeInsets.symmetric(
+          vertical: size.width * 0.02, horizontal: size.width * 0.015),
+      decoration: BoxDecoration(
+        boxShadow: const [
+          BoxShadow(blurRadius: 4, blurStyle: BlurStyle.outer),
+        ],
+        borderRadius: BorderRadius.circular(size.width * 0.04),
+      ),
       child: SizedBox(
         child: Stack(
           children: [
@@ -73,6 +78,9 @@ class InitalStageItem extends StatelessWidget {
               width: double.infinity,
               height: size.height * 0.1,
               decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(size.width * 0.03),
+                      topRight: Radius.circular(size.width * 0.03)),
                   image: DecorationImage(
                       image: NetworkImage(cover == '' ? noImage : cover),
                       fit: BoxFit.cover)),

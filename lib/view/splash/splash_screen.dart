@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fusion_sync/controller/post_controller.dart';
-import 'package:fusion_sync/controller/storie_controller.dart';
 import 'package:fusion_sync/view/login/login_screen.dart';
 import 'package:fusion_sync/view/main/main_screen.dart';
 import 'package:get/get.dart';

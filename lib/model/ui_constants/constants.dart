@@ -76,3 +76,5 @@ const nonUserNonProfile =
     'https://image.shutterstock.com/image-vector/man-icon-flat-vector-260nw-1371568223.jpg';
 const noImage =
     "https://upload.wikimedia.org/wikipedia/commons/7/75/No_image_available.png";
+
+var backClr = Colors.teal.shade200;

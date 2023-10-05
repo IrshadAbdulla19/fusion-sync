@@ -32,38 +32,45 @@ class StoriePart extends StatelessWidget {
                 children: [
                   Obx(
                     () => InkWell(
-                      onTap: () {
-                        if (stryCntrl.thisUserStorieList.isNotEmpty) {
-                          var profile = '';
-                          var username = '';
-                          var storie = stryCntrl.thisUserStorieList[0];
-                          var image = storie['ImageUrl'];
-                          var storieUserid = storie['StorieUserId'];
-                          for (var element in prflCntrl.allUserDetiles) {
-                            if (element['uid'] == storieUserid) {
-                              profile = element['profilePic'];
-                              username = element['username'];
+                        onTap: () {
+                          if (stryCntrl.thisUserStorieList.isNotEmpty) {
+                            var profile = '';
+                            var username = '';
+                            var storie = stryCntrl.thisUserStorieList[0];
+                            var image = storie['ImageUrl'];
+                            var storieUserid = storie['StorieUserId'];
+                            for (var element in prflCntrl.allUserDetiles) {
+                              if (element['uid'] == storieUserid) {
+                                profile = element['profilePic'];
+                                username = element['username'];
+                              }
                             }
+                            Get.to(
+                                () => StorieView(
+                                      uid: storieUserid,
+                                      image: image,
+                                      profile: profile,
+                                      username: username,
+                                    ),
+                                transition: Transition.zoom);
                           }
-                          Get.to(
-                              () => StorieView(
-                                    uid: storieUserid,
-                                    image: image,
-                                    profile: profile,
-                                    username: username,
-                                  ),
-                              transition: Transition.zoom);
-                        }
-                      },
-                      child: CircleAvatar(
-                        backgroundImage: NetworkImage(
-                            prflCntrl.profile.value == ""
-                                ? nonUserNonProfile
-                                : prflCntrl.profile.value),
-                        backgroundColor: kBlackColor,
-                        radius: size.width * 0.083,
-                      ),
-                    ),
+                        },
+                        child: Container(
+                          margin: EdgeInsets.symmetric(
+                              horizontal: size.width * 0.014),
+                          width: size.width * 0.15,
+                          decoration: BoxDecoration(
+                            boxShadow: const [BoxShadow(blurRadius: 4)],
+                            borderRadius:
+                                BorderRadius.circular(size.width * 0.04),
+                            image: DecorationImage(
+                                image: NetworkImage(
+                                    prflCntrl.profile.value == ""
+                                        ? nonUserNonProfile
+                                        : prflCntrl.profile.value),
+                                fit: BoxFit.cover),
+                          ),
+                        )),
                   ),
                   Positioned(
                     right: 0,
@@ -77,7 +84,7 @@ class StoriePart extends StatelessWidget {
                                 transition: Transition.zoom);
                           },
                           color: kWhiteColor,
-                          icon: Icon(Icons.add)),
+                          icon: const Icon(Icons.add)),
                     ),
                   )
                 ],
@@ -88,7 +95,7 @@ class StoriePart extends StatelessWidget {
                 () => ListView.builder(
                     scrollDirection: Axis.horizontal,
                     // shrinkWrap: false,
-                    physics: BouncingScrollPhysics(),
+                    physics: const BouncingScrollPhysics(),
                     itemCount: stryCntrl.storieList.length,
                     itemBuilder: (context, index) {
                       var profile = '';
@@ -103,20 +110,30 @@ class StoriePart extends StatelessWidget {
                         }
                       }
                       return InkWell(
-                        onTap: () => Get.to(
-                            () => StorieView(
-                                  uid: storieUserid,
-                                  image: image,
-                                  profile: profile,
-                                  username: username,
-                                ),
-                            transition: Transition.zoom),
-                        child: CircleAvatar(
-                          backgroundImage: NetworkImage(image),
-                          backgroundColor: kBlackColor,
-                          radius: size.width * 0.083,
-                        ),
-                      );
+                          onTap: () => Get.to(
+                              () => StorieView(
+                                    uid: storieUserid,
+                                    image: image,
+                                    profile: profile,
+                                    username: username,
+                                  ),
+                              transition: Transition.zoom),
+                          child: Container(
+                            margin: EdgeInsets.symmetric(
+                                horizontal: size.width * 0.014),
+                            width: size.width * 0.15,
+                            decoration: BoxDecoration(
+                              boxShadow: const [
+                                BoxShadow(
+                                    blurRadius: 7, blurStyle: BlurStyle.outer)
+                              ],
+                              borderRadius:
+                                  BorderRadius.circular(size.width * 0.04),
+                              image: DecorationImage(
+                                  image: NetworkImage(image),
+                                  fit: BoxFit.cover),
+                            ),
+                          ));
                     }),
               ),
             ),

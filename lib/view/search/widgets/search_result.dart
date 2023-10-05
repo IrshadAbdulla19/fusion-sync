@@ -63,7 +63,15 @@ class SearchResultItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
+    return Container(
+      margin: EdgeInsets.symmetric(
+          vertical: size.width * 0.02, horizontal: size.width * 0.015),
+      decoration: BoxDecoration(
+        boxShadow: const [
+          BoxShadow(blurRadius: 4, blurStyle: BlurStyle.outer),
+        ],
+        borderRadius: BorderRadius.circular(size.width * 0.04),
+      ),
       child: SizedBox(
           width: double.infinity,
           height: size.height * 0.2,
@@ -73,6 +81,9 @@ class SearchResultItem extends StatelessWidget {
                 width: double.infinity,
                 height: size.height * 0.13,
                 decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(size.width * 0.03),
+                        topRight: Radius.circular(size.width * 0.03)),
                     image: DecorationImage(
                         image: NetworkImage(cover == '' ? noImage : cover),
                         fit: BoxFit.cover)),
